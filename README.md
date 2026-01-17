@@ -476,6 +476,6 @@ Directions for future research:
 
 ---
 
-**Questions?** Open an issue or contact: `context-engineering@research.ai`
+**Questions?** Open an issue or contact: `b1oo@shrewdsecurity.io`
 
 **Found this useful?** ⭐ Star the repo to help others discover it!
