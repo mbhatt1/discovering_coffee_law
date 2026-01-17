@@ -1,0 +1,59 @@
+{
+  "5.2_context_length": {
+    "analysis": "Context length effects captured in Section 3.3"
+  },
+  "5.3_domain": {
+    "by_domain": {
+      "technical": {
+        "variance": 0.05792858467010849,
+        "num_samples": 10
+      },
+      "narrative": {
+        "variance": 0.07774383678505138,
+        "num_samples": 10
+      },
+      "scientific": {
+        "variance": 0.04820661699897479,
+        "num_samples": 10
+      },
+      "conversational": {
+        "variance": 0.14602269136026286,
+        "num_samples": 10
+      }
+    }
+  },
+  "5.1_temperature": {
+    "by_temperature": {
+      "0.0": {
+        "hurst_exponent": 1.4191896509405144,
+        "r_squared": -0.7750351831516142,
+        "amplitude": 5.293042793580162e-07
+      },
+      "0.3": {
+        "hurst_exponent": 0.6923888531266252,
+        "r_squared": 0.7496013239761499,
+        "amplitude": 0.00012530789737619878
+      },
+      "0.5": {
+        "hurst_exponent": 0.10907807934710734,
+        "r_squared": 0.798472226398161,
+        "amplitude": 0.023474159105617544
+      },
+      "0.7": {
+        "hurst_exponent": 0.13319494658967107,
+        "r_squared": 0.8688437784411657,
+        "amplitude": 0.022533535275609126
+      },
+      "1.0": {
+        "hurst_exponent": 0.1345509815708224,
+        "r_squared": 0.981630622261627,
+        "amplitude": 0.02975318354174156
+      },
+      "1.5": {
+        "hurst_exponent": 0.12734245329397412,
+        "r_squared": 0.9738022819728726,
+        "amplitude": 0.03527255481332174
+      }
+    }
+  }
+}

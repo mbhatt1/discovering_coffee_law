@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "query-drift-validation"
+version = "0.1.0"
+description = "Empirical validation of the Query Drift Hypothesis"
+requires-python = ">=3.10"
+dependencies = [
+    "openai",
+    "numpy",
+    "scipy",
+    "matplotlib",
+]
+
+[project.optional-dependencies]
+mem0 = ["mem0ai"]
+
+[project.scripts]
+query-drift = "query_drift.cli:main"

@@ -1,0 +1,465 @@
+{
+  "section3": {
+    "3.2_alignment_decay": {
+      "trials": [
+        {
+          "trial": 0,
+          "context_lengths": [
+            90,
+            127,
+            186,
+            246,
+            302,
+            358,
+            422,
+            487,
+            540,
+            600,
+            661,
+            698,
+            757,
+            817,
+            873,
+            929,
+            993,
+            1058,
+            1111,
+            1171,
+            1232,
+            1269,
+            1328,
+            1388,
+            1444,
+            1500,
+            1564,
+            1629,
+            1682,
+            1742,
+            1803,
+            1840,
+            1899,
+            1959,
+            2015,
+            2071,
+            2135,
+            2200,
+            2253,
+            2313,
+            2374
+          ],
+          "alignments": [
+            0.8410648640920337,
+            0.6910389594931923,
+            0.7124031299104627,
+            0.6972640755832622,
+            0.7125682594190441,
+            0.7272955374227236,
+            0.7080320476062216,
+            0.7027151211295065,
+            0.6899460454733259,
+            0.6837635952414162,
+            0.6639382553388262,
+            0.6458322791264078,
+            0.644247710434452,
+            0.6202902089360403,
+            0.6261244600185809,
+            0.6212327404325351,
+            0.6157753542492359,
+            0.6138595324442336,
+            0.6134329730727334,
+            0.5953290546124005,
+            0.594273246315049,
+            0.5854005956900195,
+            0.573250718422166,
+            0.5637095328535988,
+            0.5556650268244915,
+            0.5669214740530365,
+            0.5450286468641076,
+            0.543890347889679,
+            0.5366681405907421,
+            0.5308985610323314,
+            0.5275418052875329,
+            0.5151248686235975,
+            0.5089128570219615,
+            0.5003008937444486,
+            0.4900806939752364,
+            0.48864153996758486,
+            0.48208271995649216,
+            0.47994344500455266,
+            0.4731540587677248,
+            0.46669007114153416,
+            0.46482418434516865
+          ],
+          "fitted_beta": 0.16619831678559,
+          "r_squared": 0.8327653154895183
+        },
+        {
+          "trial": 1,
+          "context_lengths": [
+            90,
+            127,
+            186,
+            246,
+            302,
+            358,
+            422,
+            487,
+            540,
+            600,
+            661,
+            698,
+            757,
+            817,
+            873,
+            929,
+            993,
+            1058,
+            1111,
+            1171,
+            1232,
+            1269,
+            1328,
+            1388,
+            1444,
+            1500,
+            1564,
+            1629,
+            1682,
+            1742,
+            1803,
+            1840,
+            1899,
+            1959,
+            2015,
+            2071,
+            2135,
+            2200,
+            2253,
+            2313,
+            2374
+          ],
+          "alignments": [
+            0.8410289927772283,
+            0.6910237976226329,
+            0.712251033278734,
+            0.6972514370873202,
+            0.7126911539331293,
+            0.7272734269654308,
+            0.7080185534958399,
+            0.7028925919290921,
+            0.6893639367780481,
+            0.683765550625305,
+            0.6639397774146106,
+            0.6465344520960212,
+            0.6442472687307625,
+            0.6201033820827311,
+            0.6261212908443894,
+            0.6212313840802103,
+            0.6156666904043027,
+            0.6139168492341811,
+            0.6134356583440586,
+            0.5952908630693463,
+            0.5942773817737687,
+            0.5854009465183146,
+            0.5732507696073093,
+            0.563709949635647,
+            0.5556662058257582,
+            0.5669234162723559,
+            0.5448755098360588,
+            0.5438403816925815,
+            0.5365164720711957,
+            0.5309089507248195,
+            0.5282176185876601,
+            0.5151671123513876,
+            0.5089204026687223,
+            0.5004498887406807,
+            0.4900891045710805,
+            0.4886492926779649,
+            0.4821229341951656,
+            0.4799565177669989,
+            0.47316718677320263,
+            0.46670389439692295,
+            0.46495070605436617
+          ],
+          "fitted_beta": 0.16614155009098258,
+          "r_squared": 0.8327744243852407
+        }
+      ],
+      "aggregated": {
+        "mean_beta": 0.1661699334382863,
+        "std_beta": 2.8383347303706508e-05,
+        "num_trials": 2
+      }
+    },
+    "3.4_memory_retrieval": {
+      "trials": [
+        {
+          "trial": 0,
+          "retrieval_rate": 1.0,
+          "mean_score": 1.0,
+          "decay_exponent": 0.0
+        },
+        {
+          "trial": 1,
+          "retrieval_rate": 1.0,
+          "mean_score": 1.0,
+          "decay_exponent": 0.0
+        }
+      ],
+      "aggregated": {
+        "mean_retrieval_rate": 1.0,
+        "std_retrieval_rate": 0.0,
+        "num_trials": 2
+      }
+    },
+    "3.3_loss_scaling": {
+      "trials": [
+        {
+          "trial": 0,
+          "context_lengths": [
+            100,
+            200,
+            500,
+            1000,
+            2000
+          ],
+          "mean_losses": [
+            0.21691351592342062,
+            0.16261234207635095,
+            0.17065922693252775,
+            0.22086379819043475,
+            0.24555506470918984
+          ],
+          "scaling_exponent": 1.6510875738577446,
+          "r_squared": 0.5516929891022981
+        },
+        {
+          "trial": 1,
+          "context_lengths": [
+            100,
+            200,
+            500,
+            1000,
+            2000
+          ],
+          "mean_losses": [
+            0.21575991219349336,
+            0.16815529812289332,
+            0.1639596979744524,
+            0.1987784691000522,
+            0.26086680755058894
+          ],
+          "scaling_exponent": 3.0331093918873933,
+          "r_squared": 0.7219994289368273
+        }
+      ],
+      "aggregated": {
+        "mean_beta": 2.342098482872569,
+        "std_beta": 0.6910109090148243,
+        "num_trials": 2
+      }
+    },
+    "3.1_variance_growth": {
+      "trials": [
+        {
+          "trial": 0,
+          "positions": [
+            10,
+            20,
+            30,
+            50,
+            75,
+            100
+          ],
+          "variances": [
+            0.0649411024793502,
+            0.07505450204970941,
+            0.07725101794369796,
+            0.07945603261199871,
+            0.07486939515553641,
+            0.07513249648531677
+          ],
+          "hurst_exponent": 0.02674551102719643,
+          "r_squared": 0.4031059166355033
+        },
+        {
+          "trial": 1,
+          "positions": [
+            10,
+            20,
+            30,
+            50,
+            75,
+            100
+          ],
+          "variances": [
+            0.06160305191458899,
+            0.07564168186469561,
+            0.07617520638358978,
+            0.07699534896044406,
+            0.07978883240818037,
+            0.08276883383717416
+          ],
+          "hurst_exponent": 0.05376262435338085,
+          "r_squared": 0.8072763355964823
+        }
+      ],
+      "aggregated": {
+        "mean_hurst": 0.040254067690288636,
+        "std_hurst": 0.01350855666309221,
+        "num_trials": 2
+      }
+    }
+  },
+  "section4": {
+    "model_fits": {
+      "brownian": {
+        "amplitude": 0.0011291733979454676,
+        "hurst": 0.5,
+        "r_squared": -44.74989407383953,
+        "aic": -75.99001634111046
+      },
+      "fbm": {
+        "amplitude": 0.057188334616325845,
+        "hurst": 0.03749013401732605,
+        "r_squared": 0.6017498115534614,
+        "aic": -130.91638834189237
+      },
+      "ou": {
+        "sigma_inf_sq": 0.0779823924727825,
+        "theta": 0.08332266919008127,
+        "relaxation_time": 6.000767916584218,
+        "r_squared": 0.8615991161087285,
+        "aic": -143.59950024968174
+      }
+    },
+    "model_selection": {
+      "ranking": [],
+      "best_model": null
+    }
+  },
+  "section5": {
+    "5.2_context_length": {
+      "analysis": "Context length effects captured in Section 3.3"
+    },
+    "5.3_domain": {
+      "by_domain": {
+        "technical": {
+          "variance": 0.05792858467010849,
+          "num_samples": 10
+        },
+        "narrative": {
+          "variance": 0.07774383678505138,
+          "num_samples": 10
+        },
+        "scientific": {
+          "variance": 0.04820661699897479,
+          "num_samples": 10
+        },
+        "conversational": {
+          "variance": 0.14602269136026286,
+          "num_samples": 10
+        }
+      }
+    },
+    "5.1_temperature": {
+      "by_temperature": {
+        "0.0": {
+          "hurst_exponent": 1.4191896509405144,
+          "r_squared": -0.7750351831516142,
+          "amplitude": 5.293042793580162e-07
+        },
+        "0.3": {
+          "hurst_exponent": 0.6923888531266252,
+          "r_squared": 0.7496013239761499,
+          "amplitude": 0.00012530789737619878
+        },
+        "0.5": {
+          "hurst_exponent": 0.10907807934710734,
+          "r_squared": 0.798472226398161,
+          "amplitude": 0.023474159105617544
+        },
+        "0.7": {
+          "hurst_exponent": 0.13319494658967107,
+          "r_squared": 0.8688437784411657,
+          "amplitude": 0.022533535275609126
+        },
+        "1.0": {
+          "hurst_exponent": 0.1345509815708224,
+          "r_squared": 0.981630622261627,
+          "amplitude": 0.02975318354174156
+        },
+        "1.5": {
+          "hurst_exponent": 0.12734245329397412,
+          "r_squared": 0.9738022819728726,
+          "amplitude": 0.03527255481332174
+        }
+      }
+    }
+  },
+  "section6": {
+    "6.2_completion_models": {
+      "by_model": {
+        "gpt-4o-mini": {
+          "variance": 0.055638814009658456,
+          "num_samples": 10
+        },
+        "gpt-4o": {
+          "variance": 0.08293626294483855,
+          "num_samples": 10
+        }
+      }
+    },
+    "6.1_embedding_models": {
+      "by_model": {
+        "text-embedding-3-small": {
+          "variance": 0.05225397548437956,
+          "embedding_dim": 1536
+        },
+        "text-embedding-3-large": {
+          "variance": 0.048676633701481675,
+          "embedding_dim": 3072
+        }
+      }
+    },
+    "6.3_universal_params": {
+      "analysis": "Comparing OU parameters across models and domains",
+      "hypothesis": "\u03b8 (mean-reversion rate) may be universal, \u03c3\u00b2_\u221e may vary",
+      "h_statistics": {
+        "mean": 0.37942843322271474,
+        "std": 0.47076221111770994,
+        "min": 0.040254067690288636,
+        "max": 1.4191896509405144,
+        "n": 7
+      }
+    }
+  },
+  "section7": {
+    "7.1_context_window": {
+      "relaxation_time_tokens": 6.000767916584218,
+      "recommended_refresh_interval": 12.001535833168436,
+      "analysis": "Based on OU dynamics with \u03c4=6.0 tokens, context should be refreshed approximately every 12 tokens to maintain optimal alignment."
+    },
+    "7.2_rag_guidelines": {
+      "guidelines": [
+        "1. Bounded drift means retrieval quality is more stable than pure Brownian would predict",
+        "2. Position-based reranking may be less critical due to mean-reverting dynamics",
+        "3. Chunk size should consider relaxation time \u03c4 for optimal coherence",
+        "4. Multi-query retrieval can leverage the bounded variance property"
+      ],
+      "quantitative": {
+        "retrieval_rate": 1.0
+      }
+    },
+    "7.3_memory_design": {
+      "recommendations": [
+        "1. Long-term memory systems benefit from OU-aware retrieval scoring",
+        "2. Memory consolidation can exploit the saturation property",
+        "3. Temporal weighting should follow exponential (OU) rather than power-law decay",
+        "4. Memory capacity can be higher than Brownian analysis would suggest"
+      ]
+    }
+  },
+  "total_time_seconds": 517.927572965622,
+  "timestamp": "2026-01-17T05:34:36.182885"
+}
