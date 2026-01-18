@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.3.5)  17 JAN 2026 18:14
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.3.5)  18 JAN 2026 08:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1048,24 +1048,24 @@ File: l3backend-pdftex.def 2024-02-20 L3 backend support: PDF output (pdfTeX)
 (./coffee_law.aux)
 \openout1 = `coffee_law.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 106.
-LaTeX Font Info:    ... okay on input line 106.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 106.
-LaTeX Font Info:    ... okay on input line 106.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 106.
-LaTeX Font Info:    ... okay on input line 106.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 106.
-LaTeX Font Info:    ... okay on input line 106.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 106.
-LaTeX Font Info:    ... okay on input line 106.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 106.
-LaTeX Font Info:    ... okay on input line 106.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 106.
-LaTeX Font Info:    ... okay on input line 106.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 106.
-LaTeX Font Info:    ... okay on input line 106.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 106.
-LaTeX Font Info:    ... okay on input line 106.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1129,19 +1129,19 @@ enefit from \pgfplotsset{compat=1.18} (current compat level: 1.17).
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: hyperref package is loaded.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Info: Redefining \microtypecontext on input line 106.
-Package microtype Info: Applying patch `item' on input line 106.
-Package microtype Info: Applying patch `toc' on input line 106.
-Package microtype Info: Applying patch `eqnum' on input line 106.
-Package microtype Info: Applying patch `footnote' on input line 106.
-Package microtype Info: Applying patch `verbatim' on input line 106.
+LaTeX Info: Redefining \microtypecontext on input line 107.
+Package microtype Info: Applying patch `item' on input line 107.
+Package microtype Info: Applying patch `toc' on input line 107.
+Package microtype Info: Applying patch `eqnum' on input line 107.
+Package microtype Info: Applying patch `footnote' on input line 107.
+Package microtype Info: Applying patch `verbatim' on input line 107.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 106.
+LaTeX Info: Redefining \showhyphens on input line 107.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -1149,13 +1149,13 @@ Package microtype Info: No adjustment of character kerning.
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
 )
-Package hyperref Info: Link coloring ON on input line 106.
+Package hyperref Info: Link coloring ON on input line 107.
 
 (./coffee_law.out) (./coffee_law.out)
 \@outlinefile=\write4
 \openout4 = `coffee_law.out'.
 
-LaTeX Font Info:    Trying to load font information for U+msa on input line 109
+LaTeX Font Info:    Trying to load font information for U+msa on input line 110
 .
 
 (/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsa.fd
@@ -1164,7 +1164,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 (/usr/local/texlive/2024/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 109
+LaTeX Font Info:    Trying to load font information for U+msb on input line 110
 .
 
 (/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsb.fd
@@ -1174,7 +1174,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 1
-17.
+10.
 
 (/usr/local/texlive/2024/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
@@ -1184,7 +1184,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Trying to load font information for T1+cmss on input line 1
-19.
+24.
 
 (/usr/local/texlive/2024/texmf-dist/tex/latex/base/t1cmss.fd
 File: t1cmss.fd 2023/04/13 v2.5m Standard LaTeX font definitions
@@ -1196,560 +1196,252 @@ Package microtype Info: Loading generic protrusion settings for font family
  [1
 
 {/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/loc
-al/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}{/usr/local
-/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}] [2] [3] [4
-]
-<fig_variance_NEW.png, id=346, 1001.4213pt x 427.5975pt>
+al/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}] [2]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<fig_variance_NEW.png, id=309, 507.8172pt x 340.8735pt>
 File: fig_variance_NEW.png Graphic file (type png)
 <use fig_variance_NEW.png>
-Package pdftex.def Info: fig_variance_NEW.png  used on input line 305.
-(pdftex.def)             Requested size: 404.71353pt x 172.81065pt.
- [5 <./fig_variance_NEW.png>]
-<fig_alignment_NEW.png, id=356, 712.8231pt x 497.9403pt>
-File: fig_alignment_NEW.png Graphic file (type png)
-<use fig_alignment_NEW.png>
-Package pdftex.def Info: fig_alignment_NEW.png  used on input line 320.
-(pdftex.def)             Requested size: 404.71353pt x 282.71202pt.
+Package pdftex.def Info: fig_variance_NEW.png  used on input line 266.
+(pdftex.def)             Requested size: 404.71353pt x 271.6641pt.
+[3]
+<alignment_power.png, id=327, 508.0581pt x 341.1144pt>
+File: alignment_power.png Graphic file (type png)
+<use alignment_power.png>
+Package pdftex.def Info: alignment_power.png  used on input line 279.
+(pdftex.def)             Requested size: 404.71353pt x 271.74156pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<fig8_loss_scaling.pdf, id=357, 508.84164pt x 341.18718pt>
-File: fig8_loss_scaling.pdf Graphic file (type pdf)
-<use fig8_loss_scaling.pdf>
-Package pdftex.def Info: fig8_loss_scaling.pdf  used on input line 363.
-(pdftex.def)             Requested size: 404.71353pt x 271.37787pt.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[6 <./fig_alignment_NEW.png>] [7 <./fig8_loss_scaling.pdf>]
-<fig9_cross_model.pdf, id=418, 857.86311pt x 351.81377pt>
+[4 <./fig_variance_NEW.png>]
+<fig9_cross_model.pdf, id=337, 857.95029pt x 352.1387pt>
 File: fig9_cross_model.pdf Graphic file (type pdf)
 <use fig9_cross_model.pdf>
-Package pdftex.def Info: fig9_cross_model.pdf  used on input line 422.
-(pdftex.def)             Requested size: 455.2979pt x 186.72343pt.
+Package pdftex.def Info: fig9_cross_model.pdf  used on input line 326.
+(pdftex.def)             Requested size: 455.2979pt x 186.87442pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[8 <./fig9_cross_model.pdf>]
-<fig_stress_test_NEW.png, id=464, 713.064pt x 721.0137pt>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[5 <./alignment_power.png>]
+<fig_stress_test_NEW.png, id=346, 504.6855pt x 340.8735pt>
 File: fig_stress_test_NEW.png Graphic file (type png)
 <use fig_stress_test_NEW.png>
-Package pdftex.def Info: fig_stress_test_NEW.png  used on input line 482.
-(pdftex.def)             Requested size: 404.71353pt x 409.23279pt.
+Package pdftex.def Info: fig_stress_test_NEW.png  used on input line 386.
+(pdftex.def)             Requested size: 404.71353pt x 273.36491pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<fig_rank_degradation_with_attractor.png, id=465, 426.1521pt x 280.8894pt>
+<fig_rank_degradation_with_attractor.png, id=347, 426.1521pt x 280.8894pt>
 File: fig_rank_degradation_with_attractor.png Graphic file (type png)
 <use fig_rank_degradation_with_attractor.png>
 Package pdftex.def Info: fig_rank_degradation_with_attractor.png  used on input
- line 491.
+ line 393.
 (pdftex.def)             Requested size: 430.00958pt x 283.44746pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<fig_mrr_exponential_decay.png, id=466, 426.1521pt x 280.4076pt>
+<fig_mrr_exponential_decay.png, id=348, 426.1521pt x 280.4076pt>
 File: fig_mrr_exponential_decay.png Graphic file (type png)
 <use fig_mrr_exponential_decay.png>
-Package pdftex.def Info: fig_mrr_exponential_decay.png  used on input line 498.
+Package pdftex.def Info: fig_mrr_exponential_decay.png  used on input line 400.
 
 (pdftex.def)             Requested size: 430.00958pt x 282.96126pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<fig_accuracy_stability_extreme.png, id=467, 429.2838pt x 280.8894pt>
+<fig_accuracy_stability_extreme.png, id=349, 429.2838pt x 280.8894pt>
 File: fig_accuracy_stability_extreme.png Graphic file (type png)
 <use fig_accuracy_stability_extreme.png>
 Package pdftex.def Info: fig_accuracy_stability_extreme.png  used on input line
- 505.
+ 407.
 (pdftex.def)             Requested size: 430.00958pt x 281.36446pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<fig_entropy_control_NEW.png, id=468, 712.5822pt x 427.5975pt>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<fig_entropy_control_NEW.png, id=350, 501.3129pt x 340.8735pt>
 File: fig_entropy_control_NEW.png Graphic file (type png)
 <use fig_entropy_control_NEW.png>
-Package pdftex.def Info: fig_entropy_control_NEW.png  used on input line 532.
-(pdftex.def)             Requested size: 404.71353pt x 242.85881pt.
+Package pdftex.def Info: fig_entropy_control_NEW.png  used on input line 432.
+(pdftex.def)             Requested size: 404.71353pt x 275.20618pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<fig_entropy_model_comparison.png, id=469, 859.7721pt x 298.4751pt>
-File: fig_entropy_model_comparison.png Graphic file (type png)
-<use fig_entropy_model_comparison.png>
-Package pdftex.def Info: fig_entropy_model_comparison.png  used on input line 5
-41.
-(pdftex.def)             Requested size: 455.2979pt x 158.05896pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<fig_logprob_variance.png, id=470, 426.393pt x 281.853pt>
-File: fig_logprob_variance.png Graphic file (type png)
-<use fig_logprob_variance.png>
-Package pdftex.def Info: fig_logprob_variance.png  used on input line 548.
-(pdftex.def)             Requested size: 379.4175pt x 250.80968pt.
-Runaway argument?
-{figure> 
-! Paragraph ended before \end  was complete.
-<to be read again> 
-                   \par 
-l.552 
-      
-I suspect you've forgotten a `}', causing me to apply this
-control sequence to too much text. How can we recover?
-My plan is to forget the whole thing and hope for the best.
+[6{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
+} <./fig9_cross_model.pdf>]
 
+LaTeX Warning: `h' float specifier changed to `ht'.
 
-Underfull \hbox (badness 10000) in paragraph at lines 553--553
-|[]\T1/cmss/bx/n/12 (+20) Deriving Em-pir-i-cal Re-la-tion-ships|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 558--558
-|[]\T1/cmss/bx/n/10 (+20) Fitting Stochas-tic Pro-cess Mod-els|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 579--579
-|[]\T1/cmss/bx/n/10 (+20) Model Com-par-i-son|
- []
-
-
-! LaTeX Error: Not in outer par mode.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.588 \begin{table}[h]
-                      
-You've lost some text.  Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-! LaTeX Error: Not in outer par mode.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.603 \begin{figure}[h]
-                       
-You've lost some text.  Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-<fig1_model_comparison.pdf, id=472, 1064.24762pt x 350.04715pt>
+<fig1_model_comparison.pdf, id=398, 507.58696pt x 340.29321pt>
 File: fig1_model_comparison.pdf Graphic file (type pdf)
 <use fig1_model_comparison.pdf>
-Package pdftex.def Info: fig1_model_comparison.pdf  used on input line 605.
-(pdftex.def)             Requested size: 404.71353pt x 133.11543pt.
+Package pdftex.def Info: fig1_model_comparison.pdf  used on input line 501.
+(pdftex.def)             Requested size: 404.71353pt x 271.33664pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 610--610
-|[]\T1/cmss/bx/n/10 (+20) Discovered Pa-ram-e-ters|
- []
+LaTeX Warning: `h' float specifier changed to `ht'.
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 629--629
-|[]\T1/cmss/bx/n/10 (+20) Temperature In-vari-ance of Dy-nam-ics|
- []
-
-
-! LaTeX Error: Not in outer par mode.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.635 \begin{figure}[h]
-                       
-You've lost some text.  Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-<fig3_temperature.pdf, id=474, 855.38258pt x 349.70212pt>
+[7 <./fig_stress_test_NEW.png>]
+<fig3_temperature.pdf, id=413, 857.9509pt x 352.30684pt>
 File: fig3_temperature.pdf Graphic file (type pdf)
 <use fig3_temperature.pdf>
-Package pdftex.def Info: fig3_temperature.pdf  used on input line 637.
-(pdftex.def)             Requested size: 404.71353pt x 165.45389pt.
-
-! LaTeX Error: Not in outer par mode.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.642 \begin{table}[h]
-                      
-You've lost some text.  Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+Package pdftex.def Info: fig3_temperature.pdf  used on input line 521.
+(pdftex.def)             Requested size: 404.71353pt x 166.1917pt.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 664--664
-|[]\T1/cmss/bx/n/10 (+20) Domain De-pen-dence|
- []
+LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-! LaTeX Error: Not in outer par mode.
+LaTeX Warning: `h' float specifier changed to `ht'.
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.668 \begin{figure}[h]
-                       
-You've lost some text.  Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-<fig4_domains.pdf, id=475, 711.04396pt x 422.01102pt>
+<fig4_domains.pdf, id=414, 568.8013pt x 352.1864pt>
 File: fig4_domains.pdf Graphic file (type pdf)
 <use fig4_domains.pdf>
-Package pdftex.def Info: fig4_domains.pdf  used on input line 670.
-(pdftex.def)             Requested size: 404.71353pt x 240.20105pt.
+Package pdftex.def Info: fig4_domains.pdf  used on input line 548.
+(pdftex.def)             Requested size: 404.71353pt x 250.59148pt.
 
-! LaTeX Error: Not in outer par mode.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.675 \begin{table}[h]
-                      
-You've lost some text.  Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 693--693
-|[]\T1/cmss/bx/n/12 (+20) Discovery: Ornstein-Uhlenbeck Dy-nam-ics|
- []
+LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-! LaTeX Error: Not in outer par mode.
+LaTeX Warning: `h' float specifier changed to `ht'.
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.698 \begin{figure}[h]
-                       
-You've lost some text.  Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+<fig_dense_sampling.png, id=415, 860.4948pt x 570.933pt>
+File: fig_dense_sampling.png Graphic file (type png)
+<use fig_dense_sampling.png>
+Package pdftex.def Info: fig_dense_sampling.png  used on input line 597.
+(pdftex.def)             Requested size: 430.00958pt x 285.30898pt.
 
-<fig5_summary.pdf, id=476, 686.565pt x 594.32979pt>
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[8 <./fig_rank_degradation_with_attractor.png>]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<fig5_summary.pdf, id=426, 731.79648pt x 619.03458pt>
 File: fig5_summary.pdf Graphic file (type pdf)
 <use fig5_summary.pdf>
-Package pdftex.def Info: fig5_summary.pdf  used on input line 700.
-(pdftex.def)             Requested size: 480.59395pt x 416.02802pt.
+Package pdftex.def Info: fig5_summary.pdf  used on input line 665.
+(pdftex.def)             Requested size: 480.59395pt x 406.54271pt.
 
-! LaTeX Error: Not in outer par mode.
+LaTeX Warning: `h' float specifier changed to `ht'.
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.705 \begin{figure}[h]
-                       
-You've lost some text.  Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-<fig_combined_ou_evidence.png, id=477, 725.8317pt x 684.6378pt>
+<fig_combined_ou_evidence.png, id=427, 725.8317pt x 684.6378pt>
 File: fig_combined_ou_evidence.png Graphic file (type png)
 <use fig_combined_ou_evidence.png>
-Package pdftex.def Info: fig_combined_ou_evidence.png  used on input line 707.
+Package pdftex.def Info: fig_combined_ou_evidence.png  used on input line 672.
 (pdftex.def)             Requested size: 480.59395pt x 453.32487pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 712--712
-|[]\T1/cmss/bx/n/10 (+20) The COF-FEE Law|
- []
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[9 <./fig_mrr_exponential_decay.png>]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 729--729
-|[]\T1/cmss/bx/n/10 (+20) Properties of OU Dy-nam-ics|
- []
+LaTeX Warning: `h' float specifier changed to `ht'.
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 757--757
-|[]\T1/cmss/bx/n/10 (+20) Comparison with Brow-n-ian Mo-tion|
- []
-
-
-! LaTeX Error: Not in outer par mode.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.763 \begin{table}[h]
-                      
-You've lost some text.  Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 780--780
-|[]\T1/cmss/bx/n/10 (+20) Quantitative Agree-ment|
- []
-
-
-! LaTeX Error: Not in outer par mode.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.786 \begin{table}[h]
-                      
-You've lost some text.  Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-! LaTeX Error: Not in outer par mode.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.806 \begin{figure}[h]
-                       
-You've lost some text.  Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-<fig7_ou_prediction.pdf, id=479, 508.84164pt x 341.03033pt>
+<fig7_ou_prediction.pdf, id=436, 507.58696pt x 340.29321pt>
 File: fig7_ou_prediction.pdf Graphic file (type pdf)
 <use fig7_ou_prediction.pdf>
-Package pdftex.def Info: fig7_ou_prediction.pdf  used on input line 808.
-(pdftex.def)             Requested size: 430.00958pt x 288.21196pt.
+Package pdftex.def Info: fig7_ou_prediction.pdf  used on input line 745.
+(pdftex.def)             Requested size: 430.00958pt x 288.29518pt.
+[10 <./fig_accuracy_stability_extreme.png>]
 
-Underfull \hbox (badness 10000) in paragraph at lines 813--813
-|[]\T1/cmss/bx/n/12 (+20) Theoretical Ex-pla-na-tion|
- []
+LaTeX Warning: `h' float specifier changed to `ht'.
 
+<variance_growth.png, id=446, 508.0581pt x 341.1144pt>
+File: variance_growth.png Graphic file (type png)
+<use variance_growth.png>
+Package pdftex.def Info: variance_growth.png  used on input line 752.
+(pdftex.def)             Requested size: 430.00958pt x 288.72542pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 818--818
-|[]\T1/cmss/bx/n/10 (+20) Architectural Sources of Mean-Reversion|
- []
+LaTeX Warning: `h' float specifier changed to `ht'.
 
+[11 <./fig_entropy_control_NEW.png>] [12 <./fig1_model_comparison.pdf>]
+[13 <./fig3_temperature.pdf>]
 
-Underfull \hbox (badness 10000) in paragraph at lines 842--842
-|[]\T1/cmss/bx/n/10 (+20) Emergent Mean-Reversion|
- []
+LaTeX Warning: `h' float specifier changed to `ht'.
 
+<fig_lost_in_middle.png, id=560, 1004.0712pt x 859.0494pt>
+File: fig_lost_in_middle.png Graphic file (type png)
+<use fig_lost_in_middle.png>
+Package pdftex.def Info: fig_lost_in_middle.png  used on input line 838.
+(pdftex.def)             Requested size: 430.00958pt x 367.90283pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 852--852
-|[]\T1/cmss/bx/n/10 (+20) Why Brow-n-ian Mo-tion Fails|
- []
+LaTeX Warning: `h' float specifier changed to `ht'.
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 866--866
-|[]\T1/cmss/bx/n/12 (+20) Practical Ap-pli-ca-tions|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 871--871
-|[]\T1/cmss/bx/n/10 (+20) Optimal Con-text Win-dow|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 889--889
-|[]\T1/cmss/bx/n/10 (+20) RAG Sys-tem De-sign|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 905--905
-|[]\T1/cmss/bx/n/10 (+20) Memory Sys-tem De-sign|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 919--919
-|[]\T1/cmss/bx/n/12 (+20) Discussion|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 924--924
-|[]\T1/cmss/bx/n/10 (+20) The ``Lost in the Mid-dle'' Re-con-sid-ered|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 940--940
-|[]\T1/cmss/bx/n/10 (+20) Universality of OU Dy-nam-ics|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 946--946
-|[]\T1/cmss/bx/n/10 (+20) Implications for Con-text En-gi-neer-ing|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 960--960
-|[]\T1/cmss/bx/n/10 (+20) Limitations|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 974--974
-|[]\T1/cmss/bx/n/10 (+20) Future Di-rec-tions|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 988--988
-|[]\T1/cmss/bx/n/12 (+20) Related Work|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1000--1000
-|[]\T1/cmss/bx/n/12 (+20) Conclusion|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1025--1025
-|\T1/cmss/bx/n/10 (+20) Reproducibility|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1031--1031
-|\T1/cmss/bx/n/10 (+20) Acknowledgments|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1036--1036
-|\T1/cmss/bx/n/12 (+20) References|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1082--1082
-|[]\T1/cmss/bx/n/12 (+20) Ornstein-Uhlenbeck Pro-cess De-tails|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1084--1084
-|[]\T1/cmss/bx/n/10 (+20) Variance Evo-lu-tion|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1098--1098
-|[]\T1/cmss/bx/n/10 (+20) Autocorrelation|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1107--1107
-|[]\T1/cmss/bx/n/12 (+20) Experimental De-tails|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1109--1109
-|[]\T1/cmss/bx/n/10 (+20) Hyperparameters|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1119--1119
-|[]\T1/cmss/bx/n/10 (+20) Statistical Meth-ods|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1127--1127
-|[]\T1/cmss/bx/n/10 (+20) Compute Re-quire-ments|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1133--1133
-|[]\T1/cmss/bx/n/12 (+20) Additional Data|
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1135--1135
-|[]\T1/cmss/bx/n/10 (+20) Full Vari-ance Data|
- []
-
-
-! LaTeX Error: Not in outer par mode.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1139 \begin{table}[h]
-                       
-You've lost some text.  Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1153--1153
-|[]\T1/cmss/bx/n/10 (+20) Temperature Study De-tails|
- []
-
-
-! LaTeX Error: \begin{figure} on input line 546 ended by \end{document}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1157 \end{document}
-                     
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
+[14 <./fig4_domains.pdf>] [15 <./fig_dense_sampling.png>] [16] [17 <./fig5_summ
+ary.pdf>] [18] [19] [20 <./fig_combined_ou_evidence.png>] [21 <./fig7_ou_predic
+tion.pdf> <./variance_growth.png>] [22 <./fig_lost_in_middle.png>]
 (./coffee_law.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
  ***********
-
-
-Package rerunfilecheck Warning: File `coffee_law.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `coffee_law.out':
-(rerunfilecheck)             Before: E7CCDDCFB2519F56EDDAD48F3A86027C;10007
-(rerunfilecheck)             After:  4CB63E9331BA012683D4D39BA21A0FB4;3203.
-! You can't use `\end' in internal vertical mode.
-\enddocument ...cument/end}\deadcycles \z@ \@@end 
-                                                  
-l.1157 \end{document}
-                     
-Sorry, but I'm not programmed to handle this case;
-I'll just pretend that you didn't ask for it.
-If you're in the wrong mode, you might be able to
-return to the right one by typing `I}' or `I$' or `I\par'.
-
-
-! LaTeX Error: \begin{figure} on input line 546 ended by \end{document}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1157 \end{document}
-                     
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-! Missing } inserted.
-<inserted text> 
-                }
-l.1157 \end{document}
-                     
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-)
-! Emergency stop.
-<*> coffee_law.tex
-                  
-*** (job aborted, no legal \end found)
-
- 
+Package rerunfilecheck Info: File `coffee_law.out' has not changed.
+(rerunfilecheck)             Checksum: 44E7EE26A2EA12CA3C647402B477B158;10480.
+ ) 
 Here is how much of TeX's memory you used:
- 41579 strings out of 474116
- 958125 string characters out of 5743683
- 2006187 words of memory out of 5000000
- 62850 multiletter control sequences out of 15000+600000
- 593696 words of font info for 254 fonts, out of 8000000 for 9000
+ 41699 strings out of 474116
+ 960645 string characters out of 5743683
+ 1953187 words of memory out of 5000000
+ 62945 multiletter control sequences out of 15000+600000
+ 591060 words of font info for 238 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,13n,87p,1411b,898s stack positions out of 10000i,1000n,20000p,200000b,200000s
-!  ==> Fatal error occurred, no output PDF file produced!
+ 84i,11n,87p,1171b,835s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
+></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb><
+/usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></
+usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></u
+sr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr
+/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/l
+ocal/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/loc
+al/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local
+/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/t
+exlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texl
+ive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive
+/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/20
+24/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2024/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2024/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2024/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2024/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2024/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2024/texmf-dis
+t/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2024/texmf
+-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2024/t
+exmf-dist/fonts/type1/public/cm-super/sfbx0900.pfb></usr/local/texlive/2024/tex
+mf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/texlive/2024/texmf
+-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2024/texmf-d
+ist/fonts/type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2024/texmf-dis
+t/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2024/texmf-dist/
+fonts/type1/public/cm-super/sfrm0900.pfb></usr/local/texlive/2024/texmf-dist/fo
+nts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2024/texmf-dist/font
+s/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2024/texmf-dist/fonts/
+type1/public/cm-super/sfsx0900.pfb></usr/local/texlive/2024/texmf-dist/fonts/ty
+pe1/public/cm-super/sfsx1000.pfb></usr/local/texlive/2024/texmf-dist/fonts/type
+1/public/cm-super/sfsx1200.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/
+public/cm-super/sfti0900.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/pu
+blic/cm-super/sfti1000.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/publ
+ic/cm-super/sftt1000.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public
+/cm-super/sftt1200.pfb>
+Output written on coffee_law.pdf (22 pages, 2355696 bytes).
+PDF statistics:
+ 995 PDF objects out of 1000 (max. 8388607)
+ 598 compressed objects within 6 object streams
+ 164 named destinations out of 1000 (max. 500000)
+ 65146 words of extra memory for PDF output out of 74296 (max. 10000000)
+

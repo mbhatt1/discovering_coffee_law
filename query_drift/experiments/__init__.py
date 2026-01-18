@@ -14,6 +14,9 @@ Exports:
     StressTestRetrievalExperiment: Extreme distractor counts to break ceiling effect
     EntropyDriftExperiment: Controls for LayerNorm artifact via entropy measurement
     ExtendedContextExperiment: Tests variance saturation at 10k+ token contexts
+    DenseSamplingExperiment: Dense sampling + prompt diversity (hierarchical) for COFFEE Law
+    LostInMiddleExperiment: Liu et al. (2023) protocol for position-dependent retrieval
+    InternalStatesExperiment: Open-weight internal-state replication (Llama/Mistral)
 """
 
 from .base import BaseExperiment, ExperimentResult
@@ -24,6 +27,9 @@ from .mem0_retrieval import Mem0RetrievalExperiment
 from .stress_test_retrieval import StressTestRetrievalExperiment
 from .entropy_drift import EntropyDriftExperiment
 from .extended_context import ExtendedContextExperiment
+from .dense_sampling import DenseSamplingExperiment
+from .lost_in_middle import LostInMiddleExperiment
+from .internal_states import InternalStatesExperiment
 
 __all__ = [
     "ExperimentResult",
@@ -35,4 +41,7 @@ __all__ = [
     "StressTestRetrievalExperiment",
     "EntropyDriftExperiment",
     "ExtendedContextExperiment",
+    "DenseSamplingExperiment",
+    "LostInMiddleExperiment",
+    "InternalStatesExperiment",
 ]

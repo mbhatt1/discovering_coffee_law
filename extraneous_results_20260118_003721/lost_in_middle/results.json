@@ -1,0 +1,121 @@
+{
+  "experiment": "lost_in_middle_protocol",
+  "duration_seconds": 754.6351261138916,
+  "metrics": {
+    "num_documents": 200,
+    "num_trials": 5,
+    "num_qa_pairs": 15,
+    "total_evaluations": 525,
+    "accuracy_beginning": 0.9466666666666667,
+    "accuracy_middle": 0.7333333333333333,
+    "accuracy_end": 0.8,
+    "overall_accuracy": 0.7885714285714286,
+    "u_curve_detected": true,
+    "middle_degradation": 0.14,
+    "u_curve_depth": 0.1603053435114504,
+    "position_variance_correlation": -0.6481481481481483,
+    "min_accuracy_position": "10%"
+  },
+  "data": {
+    "position_labels": [
+      "beginning",
+      "10%",
+      "25%",
+      "50%",
+      "75%",
+      "90%",
+      "end"
+    ],
+    "position_fractions": [
+      0.0,
+      0.1,
+      0.25,
+      0.5,
+      0.75,
+      0.9,
+      1.0
+    ],
+    "accuracy_by_position": {
+      "beginning": {
+        "mean": 0.9466666666666667,
+        "std": 0.22469732728470287,
+        "n": 75,
+        "ci_95": 0.05085379245845295,
+        "correct_count": 71
+      },
+      "10%": {
+        "mean": 0.7333333333333333,
+        "std": 0.4422166387140533,
+        "n": 75,
+        "ci_95": 0.10008304699746252,
+        "correct_count": 55
+      },
+      "25%": {
+        "mean": 0.7733333333333333,
+        "std": 0.4186751591495355,
+        "n": 75,
+        "ci_95": 0.09475510860849352,
+        "correct_count": 58
+      },
+      "50%": {
+        "mean": 0.7333333333333333,
+        "std": 0.4422166387140533,
+        "n": 75,
+        "ci_95": 0.10008304699746252,
+        "correct_count": 55
+      },
+      "75%": {
+        "mean": 0.7733333333333333,
+        "std": 0.4186751591495355,
+        "n": 75,
+        "ci_95": 0.09475510860849352,
+        "correct_count": 58
+      },
+      "90%": {
+        "mean": 0.76,
+        "std": 0.4270831300812525,
+        "n": 75,
+        "ci_95": 0.09665801156655356,
+        "correct_count": 57
+      },
+      "end": {
+        "mean": 0.8,
+        "std": 0.39999999999999997,
+        "n": 75,
+        "ci_95": 0.0905285222089333,
+        "correct_count": 60
+      }
+    },
+    "analysis": {
+      "overall_accuracy": 0.7885714285714286,
+      "edge_accuracy": 0.8733333333333333,
+      "middle_accuracy": 0.7333333333333333,
+      "u_curve_detected": true,
+      "middle_degradation": 0.14,
+      "u_curve_depth": 0.1603053435114504,
+      "min_accuracy_position": "10%",
+      "position_variance_correlation": -0.6481481481481483,
+      "position_variance_p_value": 0.11539058907405626,
+      "ou_accuracy_correlation": -0.33091580144155175,
+      "ou_accuracy_p_value": 0.4684667815716996,
+      "theoretical_ou_variance": [
+        0.9999999994,
+        0.9999999993623423,
+        0.9999996934977733,
+        0.0,
+        0.9999996934977733,
+        0.9999999993623423,
+        0.9999999994
+      ],
+      "edge_distances": [
+        0.0,
+        0.1,
+        0.25,
+        0.5,
+        0.25,
+        0.09999999999999998,
+        0.0
+      ]
+    }
+  }
+}
