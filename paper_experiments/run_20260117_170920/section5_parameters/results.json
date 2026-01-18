@@ -1,0 +1,54 @@
+{
+  "5.2_context_length": {
+    "analysis": "Context length effects captured in Section 3.3"
+  },
+  "5.3_domain": {
+    "by_domain": {
+      "technical": {
+        "variance": 0.05801601294311226,
+        "num_samples": 10
+      },
+      "narrative": {
+        "variance": 0.08756316228626257,
+        "num_samples": 10
+      },
+      "scientific": {
+        "variance": 0.06932247955776322,
+        "num_samples": 10
+      },
+      "conversational": {
+        "variance": 0.17424774420296302,
+        "num_samples": 10
+      }
+    }
+  },
+  "5.1_temperature": {
+    "by_temperature": {
+      "0.3": {
+        "hurst_exponent": 0.06621793558938185,
+        "r_squared": 0.9677755313192603,
+        "amplitude": 0.02564284347519308
+      },
+      "0.5": {
+        "hurst_exponent": 0.04258601344334868,
+        "r_squared": 0.7907264280023141,
+        "amplitude": 0.04503049915707627
+      },
+      "0.7": {
+        "hurst_exponent": 0.10027765458923094,
+        "r_squared": 0.9114589098582798,
+        "amplitude": 0.04143880029847148
+      },
+      "1.0": {
+        "hurst_exponent": 0.05871361025582666,
+        "r_squared": 0.37288865004484073,
+        "amplitude": 0.03622259298599507
+      },
+      "1.5": {
+        "hurst_exponent": 0.16338289830823016,
+        "r_squared": 0.9989073879630298,
+        "amplitude": 0.03308926159520767
+      }
+    }
+  }
+}

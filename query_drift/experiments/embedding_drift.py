@@ -43,12 +43,11 @@ class EmbeddingDriftExperiment(BaseExperiment):
         cfg = self.config.embedding_drift
 
         try:
-            # Step 1: Define baseline prefix
+            # Step 1: Define baseline prefix (matching bulletproof entropy_drift experiment)
             self._prefix = (
-                "The history of artificial intelligence began in the 1950s "
-                "when researchers first explored the possibility of creating "
-                "thinking machines. Since then, the field has evolved through "
-                "several distinct phases:"
+                "The development of artificial intelligence has progressed through "
+                "several important phases, starting with early theoretical work in the "
+                "1950s and continuing through modern deep learning breakthroughs."
             )
             self.log(f"Using prefix: '{self._prefix[:50]}...'")
 

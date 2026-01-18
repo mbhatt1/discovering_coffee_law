@@ -49,9 +49,13 @@ class AlignmentDecayExperiment(BaseExperiment):
             distractors = decay_config.distractors
             num_rounds = decay_config.num_distractor_rounds
 
-            # Define task query and intro text
-            task_query = "What are the key principles of machine learning?"
-            intro_text = " Let me explain the fundamental concepts. "
+            # Define task query and intro text (matching bulletproof experiments theme)
+            task_query = (
+                "The development of artificial intelligence has progressed through "
+                "several important phases, starting with early theoretical work in the "
+                "1950s and continuing through modern deep learning breakthroughs."
+            )
+            intro_text = " This evolution has been marked by significant milestones. "
 
             # Step 1: Get task direction embedding u and normalize it
             self.log("Computing task direction embedding...")

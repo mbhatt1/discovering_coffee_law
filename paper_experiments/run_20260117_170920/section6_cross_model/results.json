@@ -1,0 +1,37 @@
+{
+  "6.2_completion_models": {
+    "by_model": {
+      "gpt-4o-mini": {
+        "variance": 0.0551745387904994,
+        "num_samples": 10
+      },
+      "gpt-4o": {
+        "variance": 0.08285519543686454,
+        "num_samples": 10
+      }
+    }
+  },
+  "6.1_embedding_models": {
+    "by_model": {
+      "text-embedding-3-small": {
+        "variance": 0.05825212533244019,
+        "embedding_dim": 1536
+      },
+      "text-embedding-3-large": {
+        "variance": 0.045292703613852694,
+        "embedding_dim": 3072
+      }
+    }
+  },
+  "6.3_universal_params": {
+    "analysis": "Comparing OU parameters across models and domains",
+    "hypothesis": "\u03b8 (mean-reversion rate) may be universal, \u03c3\u00b2_\u221e may vary",
+    "h_statistics": {
+      "mean": 0.08785393492763922,
+      "std": 0.03935078611528528,
+      "min": 0.04258601344334868,
+      "max": 0.16338289830823016,
+      "n": 6
+    }
+  }
+}

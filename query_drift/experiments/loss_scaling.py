@@ -23,11 +23,11 @@ class LossScalingExperiment(BaseExperiment):
 
     experiment_name = "loss_scaling"
 
-    # Coherent passage with known continuation points
+    # Coherent passage with known continuation points (first passage matches bulletproof experiments)
     BASE_PASSAGES = [
         {
-            "context": "The development of artificial intelligence has progressed through several key phases. Early AI research in the 1950s focused on symbolic reasoning and logic-based systems. Researchers believed that human intelligence could be replicated through formal rules and symbol manipulation.",
-            "continuation": " This approach, while elegant, struggled with real-world complexity."
+            "context": "The development of artificial intelligence has progressed through several important phases, starting with early theoretical work in the 1950s and continuing through modern deep learning breakthroughs. This evolution has been marked by significant milestones in symbolic reasoning, neural networks, and machine learning.",
+            "continuation": " The field continues to advance rapidly with new discoveries."
         },
         {
             "context": "Climate change represents one of the most significant challenges facing humanity. Rising global temperatures are causing widespread environmental disruption. Polar ice caps are melting at unprecedented rates, contributing to rising sea levels.",

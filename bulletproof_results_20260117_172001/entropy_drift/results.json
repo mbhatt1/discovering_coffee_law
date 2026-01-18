@@ -1,0 +1,45 @@
+{
+  "experiment": "entropy_drift",
+  "duration_seconds": 112.41701292991638,
+  "metrics": {
+    "num_sequences": 30,
+    "saturation_detected": false,
+    "better_model": "saturation",
+    "linear_slope": 0.0023206459827283927,
+    "linear_r_squared": 0.26004788897870995,
+    "saturation_plateau": 0.6013420482997351,
+    "saturation_rate": 0.18922056233342985,
+    "saturation_r_squared": 0.5318491396691367,
+    "layernorm_artifact_controlled": true
+  },
+  "data": {
+    "positions": "[ 10  20  30  50  70 100 130 150]",
+    "mean_entropies": "[0.11099749 0.45130346 0.84952729 0.39512512 0.39211307 0.64328051\n 0.74966488 0.63653228]",
+    "std_entropies": "[0.34579971 0.45570716 0.7516166  0.56047237 0.50178492 0.62245334\n 0.56974112 0.66189749]",
+    "mean_logprobs": [
+      -18.113778421135333,
+      -12.156713430685622,
+      -11.205295119921987,
+      -12.653584271005782,
+      -12.452260299054315,
+      -9.769065399944118,
+      -8.790841751716744,
+      -10.08117872394521
+    ],
+    "linear_fit": {
+      "slope": 0.0023206459827283927,
+      "intercept": 0.3661227941282542,
+      "r_squared": 0.26004788897870995,
+      "p_value": 0.19667775110556004,
+      "model": "linear"
+    },
+    "saturation_fit": {
+      "amplitude": 3.289856206275579,
+      "rate": 0.18922056233342985,
+      "offset": -2.688514157975844,
+      "plateau": 0.6013420482997351,
+      "r_squared": 0.5318491396691367,
+      "model": "saturation"
+    }
+  }
+}

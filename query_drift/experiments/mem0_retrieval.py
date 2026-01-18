@@ -97,8 +97,31 @@ class Mem0RetrievalExperiment(BaseExperiment):
         distractor_embeddings = []
         self.log(f"Adding {num_distractors} distractor embeddings...")
 
+        # Generate semantically similar personal facts as distractors (matching bulletproof experiments)
+        names = ["Alex", "Jordan", "Sam", "Taylor", "Morgan", "Casey", "Riley", "Avery"]
+        cities = ["Portland", "Austin", "Denver", "Phoenix", "Miami", "Atlanta", "Chicago"]
+        colors = ["red", "green", "purple", "yellow", "orange", "pink"]
+        foods = ["pasta", "burger", "sushi", "tacos", "salad"]
+        pets = ["Luna", "Charlie", "Bella", "Cooper", "Daisy"]
+        companies = ["Microsoft", "Apple", "Amazon", "Meta", "Tesla"]
+        universities = ["MIT", "Harvard", "Berkeley", "Yale", "Princeton"]
+        instruments = ["piano", "violin", "drums", "flute"]
+        movies = ["Interstellar", "Avatar", "Titanic", "Matrix"]
+
+        distractor_templates = [
+            lambda: f"{np.random.choice(names)}'s favorite color is {np.random.choice(colors)}.",
+            lambda: f"{np.random.choice(names)} was born in {np.random.choice(cities)}.",
+            lambda: f"{np.random.choice(names)}'s dog is named {np.random.choice(pets)}.",
+            lambda: f"{np.random.choice(names)} works at {np.random.choice(companies)}.",
+            lambda: f"{np.random.choice(names)} loves {np.random.choice(foods)}.",
+            lambda: f"{np.random.choice(names)} lives in {np.random.choice(cities)}.",
+            lambda: f"{np.random.choice(names)} graduated from {np.random.choice(universities)}.",
+            lambda: f"{np.random.choice(names)} plays {np.random.choice(instruments)}.",
+            lambda: f"{np.random.choice(names)}'s favorite movie is {np.random.choice(movies)}.",
+        ]
+
         for i in range(num_distractors):
-            distractor_text = f"Random fact number {i}: The temperature today is {np.random.randint(50, 100)} degrees and humidity is {np.random.randint(30, 90)} percent."
+            distractor_text = np.random.choice(distractor_templates)()
             emb = self.embedding_client.get_embedding(distractor_text)
             distractor_embeddings.append(np.array(emb.embedding))
 
@@ -160,8 +183,29 @@ class Mem0RetrievalExperiment(BaseExperiment):
             num_distractors = num_memories * cfg.distractor_multiplier
             self.log(f"Adding {num_distractors} distractors...")
 
+            # Generate semantically similar personal facts as distractors (matching bulletproof experiments)
+            names = ["Alex", "Jordan", "Sam", "Taylor", "Morgan", "Casey", "Riley", "Avery"]
+            cities = ["Portland", "Austin", "Denver", "Phoenix", "Miami", "Atlanta", "Chicago"]
+            colors = ["red", "green", "purple", "yellow", "orange", "pink"]
+            foods = ["pasta", "burger", "sushi", "tacos", "salad"]
+            pets = ["Luna", "Charlie", "Bella", "Cooper", "Daisy"]
+            companies = ["Microsoft", "Apple", "Amazon", "Meta", "Tesla"]
+
             for i in range(num_distractors):
-                distractor = f"Weather update {i}: Temperature is {np.random.randint(50, 100)}F with {np.random.randint(30, 90)}% humidity."
+                distractor_type = i % 6
+                if distractor_type == 0:
+                    distractor = f"{np.random.choice(names)}'s favorite color is {np.random.choice(colors)}."
+                elif distractor_type == 1:
+                    distractor = f"{np.random.choice(names)} was born in {np.random.choice(cities)}."
+                elif distractor_type == 2:
+                    distractor = f"{np.random.choice(names)}'s dog is named {np.random.choice(pets)}."
+                elif distractor_type == 3:
+                    distractor = f"{np.random.choice(names)} works at {np.random.choice(companies)}."
+                elif distractor_type == 4:
+                    distractor = f"{np.random.choice(names)} loves {np.random.choice(foods)}."
+                else:
+                    distractor = f"{np.random.choice(names)} lives in {np.random.choice(cities)}."
+
                 self._memory.add(distractor, user_id=self._user_id)
                 time.sleep(cfg.memory_delay_seconds / 2)  # Faster for distractors
                 if (i + 1) % 10 == 0:

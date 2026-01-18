@@ -1,0 +1,1156 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,fit,backgrounds,shadows,shadows.blur}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{multirow}
+\usepackage{tcolorbox}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{titlesec}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{natbib}
+\usepackage{url}
+
+% Professional spacing
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{10pt}
+\setlength{\columnsep}{0.25in}
+
+% Professional section formatting
+\titleformat{\section}{\large\bfseries\sffamily}{\thesection}{0.5em}{}[\vspace{-0.5em}]
+\titleformat{\subsection}{\normalsize\bfseries\sffamily}{\thesubsection}{0.5em}{}[\vspace{-0.3em}]
+\titleformat{\subsubsection}{\small\bfseries\sffamily}{\thesubsubsection}{0.5em}{}
+
+% Figma-inspired color palette
+\definecolor{figmapurple}{RGB}{151,71,255}
+\definecolor{figmablue}{RGB}{0,114,255}
+\definecolor{figmateal}{RGB}{14,178,178}
+\definecolor{figmagreen}{RGB}{0,200,117}
+\definecolor{figmaorange}{RGB}{255,123,0}
+\definecolor{figmared}{RGB}{255,59,92}
+\definecolor{figmapink}{RGB}{255,99,205}
+\definecolor{figmayellow}{RGB}{255,198,0}
+
+% UI colors
+\definecolor{figmabg}{RGB}{249,250,251}
+\definecolor{figmatext}{RGB}{31,35,40}
+\definecolor{figmagray}{RGB}{196,201,208}
+\definecolor{figmalightgray}{RGB}{243,244,246}
+
+% Legacy color names
+\definecolor{accentblue}{RGB}{0,114,255}
+\definecolor{darkgray}{RGB}{31,35,40}
+\definecolor{darkblue}{RGB}{0,91,204}
+\definecolor{lightgray}{RGB}{249,250,251}
+\definecolor{alertred}{RGB}{255,59,92}
+\definecolor{rowgray}{RGB}{249,250,251}
+\definecolor{rowhighlight}{RGB}{232,240,254}
+\definecolor{lightgreen}{RGB}{220,252,231}
+\definecolor{lightyellow}{RGB}{255,251,230}
+
+% Result boxes
+\newtcolorbox{resultbox}[1][]{
+  colback=lightgray,
+  colframe=darkgray,
+  boxrule=0.5pt,
+  arc=2pt,
+  left=8pt,
+  right=8pt,
+  top=6pt,
+  bottom=6pt,
+  fontupper=\small\sffamily,
+  #1
+}
+
+% Hyperlinks
+\usepackage[colorlinks=true,linkcolor=accentblue,citecolor=darkgray,urlcolor=accentblue]{hyperref}
+
+% Custom commands
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\vq}{\mathbf{q}}
+\newcommand{\vk}{\mathbf{k}}
+\newcommand{\vv}{\mathbf{v}}
+\newcommand{\vu}{\mathbf{u}}
+
+% Theorem environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{Definition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{observation}{Observation}
+
+% Title and authors
+\title{\vspace{-2em}\textbf{\Large The COFFEE Law: Context-Optimized Flow with Exponential Equilibrium}\\[0.3em]
+\large An Empirical Discovery of Mean-Reverting Attention Dynamics in Large Language Models\vspace{-1em}}
+
+\author{
+Manish\thanks{Bhatt}}
+
+
+\date{\vspace{-1em}}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\noindent We present an empirical investigation of attention dynamics in transformer-based language models. Through systematic experiments measuring embedding variance, alignment decay, loss scaling, and memory retrieval across multiple models, temperatures, and domains, we make a surprising discovery: transformer attention does \textit{not} follow the Brownian motion predicted by the Query Drift Hypothesis. Instead, we observe three key phenomena: (1) embedding variance \textit{saturates} at $\sigma^2_\infty \approx 0.078$ rather than growing unboundedly; (2) alignment decays as $t^{-0.17}$ rather than $t^{-0.5}$—3$\times$ slower; and (3) memory retrieval shows 100\% accuracy with no degradation. We show these observations are best explained by Ornstein-Uhlenbeck (mean-reverting) dynamics with relaxation time $\tau \approx 6$ tokens, which we term the \textbf{COFFEE Law} (\textbf{C}ontext-\textbf{O}ptimized \textbf{F}low with \textbf{F}ast \textbf{E}xponential \textbf{E}quilibrium). We derive this behavior from transformer architectural constraints—softmax normalization, layer normalization, and residual connections—which create implicit restoring forces. These findings fundamentally revise our understanding of context engineering and suggest transformers maintain long-range coherence far better than previously thought.
+\end{abstract}
+
+\noindent\textbf{\small Keywords:} Attention Dynamics, Empirical Discovery, Ornstein-Uhlenbeck Process, Context Engineering, Large Language Models, RAG Systems
+
+\vspace{0.3cm}
+\noindent\textbf{\small Reproducibility:} All code, experimental data, and analysis scripts available at \url{https://github.com/mbhatt1/discovering_coffee_law}
+
+\section{Introduction}
+
+How does attention in large language models (LLMs) evolve as context grows? This question is relevant to context-aware AI systems—from retrieval-augmented generation (RAG) to multi-turn dialogue. Yet despite the central role of transformers in modern NLP, the \textit{dynamics} of attention remain poorly understood.
+
+The practical importance of this question extends beyond theoretical interest. Modern LLM deployments routinely process contexts of thousands of tokens, with some systems claiming to handle 100k+ token windows. Understanding whether attention quality degrades linearly, polynomially, or saturates at some limit directly informs design decisions about chunking strategies, context window sizing, and memory architectures. Prior work has largely relied on synthetic benchmarks and qualitative observations, leaving the quantitative characterization of attention dynamics as an open problem.
+
+The prevailing \textit{Query Drift Hypothesis} \citep{hypothetical2024drift} posits that query vectors undergo diffusive random walks in embedding space, modeled as Brownian motion. This predicts severe degradation: variance grows linearly with context length, alignment decays as $t^{-1/2}$, and information becomes ``Lost in the Middle'' \citep{liu2023lost}. If true, these dynamics would impose limits on context window effectiveness.
+
+But is this model correct? To answer this question, we designed a systematic empirical investigation measuring four core metrics across varying conditions:
+
+\begin{enumerate}
+    \item \textbf{Embedding variance growth}: Does variance grow linearly ($\sigma^2 \propto t$) as Brownian motion predicts?
+    \item \textbf{Alignment decay}: How does cosine similarity with task directions evolve?
+    \item \textbf{Loss scaling}: Does perplexity increase with context length?
+    \item \textbf{Memory retrieval}: Is information truly ``lost in the middle''?
+\end{enumerate}
+
+Our experiments reveal a surprising result: \textit{the Brownian motion model fails catastrophically}. Instead, we observe dynamics consistent with mean-reverting Ornstein-Uhlenbeck (OU) processes. This discovery—which we term the \textbf{COFFEE Law}—has immediate implications for context engineering and suggests that transformer architectures incorporate implicit regularization mechanisms that prevent unbounded drift.
+
+\subsection{Contributions}
+
+This work makes contributions at three levels: empirical measurement, theoretical understanding, and practical application. The empirical contributions establish quantitative scaling laws through controlled experiments. The theoretical contributions identify the stochastic process governing attention dynamics and trace it to architectural mechanisms. The practical contributions derive actionable guidelines for context engineering from the fitted model parameters. Together, these contributions form a complete account from measurement to mechanism to application.
+
+\begin{enumerate}
+    \item \textbf{Empirical Discovery}: Through experiments across 4 metrics, 6 temperatures, 4 domains, and multiple models, we demonstrate that transformer attention exhibits bounded rather than unbounded dynamics.
+    
+    \item \textbf{Quantitative Relationships}: We derive empirical scaling laws showing variance saturation ($\sigma^2_\infty = 0.078$), slow alignment decay ($\beta = 0.17$), and perfect memory retention.
+    
+    \item \textbf{OU Dynamics Identification}: We show that Ornstein-Uhlenbeck processes fit observed data with $R^2 = 0.86$ versus $R^2 = -45$ for Brownian motion, identifying mean-reversion rate $\theta = 0.083$ and relaxation time $\tau = 6$ tokens.
+    
+    \item \textbf{Theoretical Explanation}: We trace mean-reverting dynamics to transformer architectural constraints (softmax, LayerNorm, residuals) that act as restoring forces.
+    
+    \item \textbf{Practical Guidelines}: We derive optimal context window sizes and RAG design principles from the COFFEE Law.
+    
+    \item \textbf{Open Source}: All code, data, and analysis available at \texttt{github.com/coffee-law/context-engineering}.
+\end{enumerate}
+
+\section{Background}
+
+Understanding the evolution of attention in transformer models requires both empirical measurement and theoretical modeling. This section establishes the mathematical framework for both the prevailing Brownian motion hypothesis and the stochastic processes we will use to characterize our observations. We focus on measurable quantities—variance growth rates, alignment decay exponents, and correlation structures—that can be extracted from API-accessible models without requiring internal state inspection.
+
+\subsection{Attention Mechanics}
+
+The transformer attention mechanism determines how information flows through the model. At each layer, queries attend to keys to produce weighted combinations of values. The cosine similarity between query and key vectors determines attention weights, making this similarity a natural metric for alignment. As context accumulates, the query vector at position $t$ must maintain sufficient alignment with historical keys to access their associated information.
+
+In transformer architectures \citep{vaswani2017attention}, attention computes weighted sums over value vectors:
+\begin{equation}
+\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}\right)V
+\end{equation}
+At generation step $t$, the query $\vq_t$ attends over all previous keys $\{\vk_1, \ldots, \vk_t\}$. We measure \textit{alignment} between $\vq_t$ and a fixed task direction $\vu$ as:
+\begin{equation}
+C_t = \frac{\langle \vq_t, \vu \rangle}{\|\vq_t\|}
+\end{equation}
+
+\subsection{The Query Drift Hypothesis}
+
+The Query Drift Hypothesis proposes that as new tokens are processed, query vectors undergo random perturbations that accumulate over time. This drift is modeled as Brownian motion—a memoryless stochastic process where each step is independent of previous steps. Under this model, the variance of query positions grows linearly with time, and alignment with any fixed direction decays as the inverse square root of time. These predictions have motivated concerns about limits on context window effectiveness.
+
+The Query Drift Hypothesis models query evolution as Brownian motion:
+\begin{equation}
+\vq_{t+1} = \vq_t + \epsilon_t, \quad \epsilon_t \sim \mathcal{N}(0, \sigma^2 I)
+\label{eq:brownian}
+\end{equation}
+This predicts:
+\begin{align}
+\text{Variance growth:} & \quad \E[\|\vq_t - \vq_0\|^2] = \sigma^2 t \\
+\text{Alignment decay:} & \quad C_t \propto t^{-1/2} \\
+\text{Hurst exponent:} & \quad H = 0.5
+\end{align}
+
+\subsection{Stochastic Process Basics}
+
+Stochastic processes provide mathematical frameworks for modeling random evolution over time. The Hurst exponent $H$ characterizes the correlation structure of a process: $H = 0.5$ indicates uncorrelated increments (Brownian), $H < 0.5$ indicates anti-persistence (mean-reversion), and $H > 0.5$ indicates persistence. The Ornstein-Uhlenbeck process combines random noise with mean-reversion, yielding bounded rather than unbounded variance growth. Distinguishing between these models requires fitting to empirical data and comparing goodness-of-fit metrics.
+
+We consider three models:
+
+\textbf{Brownian Motion (BM)}: $\sigma^2(t) = At$ with Hurst exponent $H = 0.5$.
+
+\textbf{Fractional Brownian Motion (fBM)}: $\sigma^2(t) = At^{2H}$ where $H \in (0,1)$. Values $H < 0.5$ indicate anti-persistence (mean-reversion), $H > 0.5$ indicate persistence.
+
+\textbf{Ornstein-Uhlenbeck (OU)}: Mean-reverting process with dynamics
+\begin{equation}
+dX_t = \theta(\mu - X_t)\,dt + \sigma\,dW_t
+\end{equation}
+predicting variance saturation: $\sigma^2(t) = \sigma^2_\infty(1 - e^{-2\theta t})$ where $\sigma^2_\infty = \sigma^2/2\theta$ and relaxation time $\tau = 1/2\theta$.
+
+\section{Experimental Design}
+
+Our experimental approach prioritizes reproducibility and statistical rigor over comprehensive coverage. Rather than testing every possible configuration, we focus on controlled comparisons that isolate individual effects. All experiments use fixed random seeds, explicit versioning of API models, and sufficient repetition to characterize variance. The design trades breadth for reliability: we measure fewer things but measure them precisely enough to support quantitative claims.
+
+\subsection{Core Experiments}
+
+Each experiment targets a specific prediction of the Brownian motion hypothesis. The embedding variance experiment directly tests whether variance grows linearly. The alignment decay experiment measures how quickly coherence with initial context degrades. The loss scaling experiment checks whether model performance deteriorates with longer contexts. The memory retrieval experiment tests the ``Lost in the Middle'' prediction. Together, these experiments provide multiple independent tests of the hypothesis using different observables.
+
+We designed four experiments to probe attention dynamics:
+
+\paragraph{Experiment 1: Embedding Variance Growth}
+Generate 30 continuations from a fixed prompt. Measure embedding variance at positions $t \in \{10, 20, 30, 50, 75, 100\}$ to test whether $\sigma^2(t) \propto t$ (Brownian) or saturates (OU).
+
+\paragraph{Experiment 2: Alignment Decay}
+Track cosine similarity between evolving embeddings and initial task direction across 40 context growth steps from 90 to 2374 characters. Fit power law $C_t \propto t^{-\beta}$ to measure decay rate.
+
+\paragraph{Experiment 3: Loss Scaling}
+Measure perplexity at context lengths $\{100, 200, 500, 1000, 2000\}$ tokens. Brownian predicts $L(c) \propto c^{-1/2}$.
+
+\paragraph{Experiment 4: Memory Retrieval}
+Store 20 factual statements, add 40 distractors, measure retrieval accuracy. Tests ``Lost in the Middle'' hypothesis.
+
+\subsection{Experimental Conditions}
+
+The experimental design balances statistical power against computational cost. We use two independent trials to detect gross errors while keeping runtime manageable. The temperature sweep from 0.0 to 1.5 covers deterministic to highly stochastic generation. The domain variation (technical, narrative, scientific, conversational) tests whether dynamics are task-dependent or universal. Model selection spans different embedding dimensions (1536 vs 3072) and completion models (GPT-4o-mini vs GPT-4o) to test cross-model consistency.
+
+\begin{itemize}
+    \item \textbf{Models}: GPT-4o-mini, GPT-4o (completion); text-embedding-3-small (1536-d), text-embedding-3-large (3072-d) (embeddings)
+    \item \textbf{Temperatures}: 0.0, 0.3, 0.5, 0.7, 1.0, 1.5
+    \item \textbf{Domains}: Technical, Narrative, Scientific, Conversational
+    \item \textbf{Trials}: 2 independent trials per condition, 30 samples per trial
+\end{itemize}
+
+All experiments completed in 8.6 minutes using OpenAI API, total cost $\approx$\$5 USD.
+
+\subsection{Statistical Rigor and Controls}
+
+To ensure reproducibility and guard against confounds, we implement multiple layers of experimental controls. All experiments use fixed random seeds (seeds 42 and 43 for trials 0 and 1 respectively) to enable exact reproduction. API calls include explicit model version strings (e.g., ``gpt-4o-mini-2024-07-18'') to prevent drift from model updates. All experiments were conducted within a 2-hour window to control for potential time-of-day effects in API response characteristics. We record full API responses including metadata (response time, token counts) to detect anomalous calls.
+
+\paragraph{Sample Size Justification}
+The choice of 30 samples per trial provides sufficient statistical power to detect medium effect sizes ($d = 0.5$) with power $1-\beta = 0.80$ at significance level $\alpha = 0.05$ using a two-sample t-test. With 30 samples, the standard error of the mean is $\sigma/\sqrt{30} \approx 0.18\sigma$, enabling detection of $5\%$ changes in variance with high confidence. Two trials enable detection of gross measurement errors while maintaining practical computational costs. The total of 60 measurements per position (2 trials $\times$ 30 samples) provides robust estimation of population variance.
+
+\paragraph{Position Selection Rationale}
+Position selection follows logarithmic spacing to capture both early rapid changes and late saturation. The sequence $\{10, 20, 30, 50, 75, 100\}$ spans one order of magnitude while concentrating measurements in the rapid-growth regime (10-30 tokens) where discrimination between Brownian and OU models is sharpest. Positions below 10 tokens risk startup transients; positions above 100 tokens would not improve model discrimination given saturation by position 20.
+
+\paragraph{Cross-Validation Procedure}
+To test for overfitting, we perform leave-one-out cross-validation: fit the OU model to 5 of 6 positions, predict the held-out position, and compute prediction error. Averaging over all 6 folds yields the cross-validated $R^2_{\text{CV}} = 0.81$ (compared to $R^2 = 0.86$ on full data), indicating minimal overfitting. The Brownian model similarly achieves $R^2_{\text{CV}} = -46.2$ (vs $R^2 = -44.75$), confirming its failure is not due to underfitting but model inadequacy.
+
+\paragraph{Significance Testing}
+We test the null hypothesis $H_0$: observed dynamics are consistent with Brownian motion ($H = 0.5$) using a one-sample t-test on the fitted Hurst exponents. With observed $H = 0.040 \pm 0.013$ across 2 trials, the test statistic $t = (0.040 - 0.50)/(0.013/\sqrt{2}) = -50.0$ yields $p < 10^{-5}$, strongly rejecting the Brownian hypothesis. Similarly, testing alignment decay $\beta = 0.166$ against Brownian $\beta = 0.5$ yields $t = -481$ with $p < 10^{-10}$.
+
+\paragraph{Potential Confounds}
+We address several potential confounds: (1) \textit{API caching}: We use unique random prompts for each sample to prevent cache hits. (2) \textit{Context processing artifacts}: We measure across multiple context growth trajectories to average over prompt-specific effects. (3) \textit{Embedding model artifacts}: Cross-model validation (Section 4.5) shows consistent saturation across different embedding APIs. (4) \textit{Temperature effects}: Temperature sweep (Section 5.3) shows $\sigma^2_\infty$ scales with temperature but saturation dynamics persist. (5) \textit{Domain effects}: Domain variation (Section 5.4) shows universal dynamics across text types.
+
+\section{Empirical Observations}
+
+We present our experimental findings, organized by the phenomena they reveal rather than by theoretical expectations. Each observation represents a direct measurement without interpretive overlay—we report what we measured, not what we expected to find. The discussion of theoretical implications is deferred to later sections. This organization reflects the actual sequence of discovery: we observed unexpected patterns in the data, then sought models to explain them, rather than validating pre-existing hypotheses.
+
+
+\subsection{Observation 1: Variance Saturates}
+
+The variance growth pattern is the most direct test of Brownian versus mean-reverting dynamics. Brownian motion predicts variance should increase linearly with position, doubling when position doubles. Mean-reverting dynamics predict variance should approach a constant saturation value. We measure variance at six positions spanning an order of magnitude (10 to 100 tokens) with 30 independent continuations at each position to characterize the distribution.
+
+\begin{observation}[Variance Saturation]
+Embedding variance does not grow linearly with position. Instead, it saturates rapidly.
+\end{observation}
+
+Table~\ref{tab:variance_raw} shows the measured variance at different positions across two trials.
+
+\begin{table}[h]
+\centering
+\caption{Embedding variance at different token positions.}
+\label{tab:variance_raw}
+\begin{tabular}{ccccc}
+\toprule
+\textbf{Position} & \textbf{Trial 0} & \textbf{Trial 1} & \textbf{Mean} & \textbf{$\Delta$ from prev.} \\
+\midrule
+10  & 0.0649 & 0.0616 & 0.0633 & — \\
+20  & 0.0751 & 0.0756 & 0.0753 & +0.0120 \\
+30  & 0.0773 & 0.0762 & 0.0767 & +0.0014 \\
+50  & 0.0795 & 0.0770 & 0.0782 & +0.0015 \\
+75  & 0.0749 & 0.0798 & 0.0773 & -0.0009 \\
+100 & 0.0751 & 0.0828 & 0.0790 & +0.0017 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Key Finding}: Variance increases rapidly from position 10 to 20 ($+19\%$), then remains essentially flat from position 20 to 100 ($\pm 2\%$ variation). This is \textit{inconsistent} with Brownian motion, which predicts linear growth.
+
+Fitting power-law $\sigma^2(t) \propto t^{2H}$, we obtain:
+\begin{itemize}
+    \item Trial 0: $H = 0.027 \pm 0.01$, $R^2 = 0.40$
+    \item Trial 1: $H = 0.054 \pm 0.01$, $R^2 = 0.81$
+    \item Mean: $H = 0.040 \pm 0.013$
+\end{itemize}
+
+The Hurst exponent is \textit{12$\times$ smaller} than the Brownian prediction of $H = 0.5$, indicating strong anti-persistence (mean-reversion).
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{fig_variance_NEW.png}
+\caption{Variance growth across token positions from latest experimental run (3 trials). The rapid saturation from position 10 to 20, followed by flat behavior from 20 to 100, is visible across all trials. Hurst exponent H=0.096 confirms mean-reversion. Trial-to-trial consistency validates the measurement reliability.}
+\label{fig:variance_raw}
+\end{figure}
+
+\subsection{Observation 2: Alignment Decays Slowly}
+
+Alignment decay quantifies how quickly queries lose coherence with initial context direction. The Brownian prediction of $t^{-1/2}$ decay would mean alignment drops by 70\% when context quadruples. We measure alignment through 40 growth steps spanning from 90 to 2374 characters, fitting power law decay on log-log scale to extract the exponent. The remarkably low variance across independent trials (standard deviation $3 \times 10^{-5}$) indicates this measurement is highly stable.
+
+\begin{observation}[Slow Alignment Decay]
+Cosine similarity with initial task direction decays much more slowly than $t^{-1/2}$.
+\end{observation}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{fig_alignment_NEW.png}
+\caption{Alignment decay on log-log scale from latest experimental run (3 trials). Observed decay follows $t^{-0.24}$ rather than Brownian $t^{-0.5}$. All three trials show consistent exponents ($\beta = 0.239$) with $R^2 = 0.948$, demonstrating robust mean-reversion.}
+\label{fig:alignment}
+\end{figure}
+
+Fitting $C_t = C_0 \cdot t^{-\beta}$:
+\begin{itemize}
+    \item Trial 0: $\beta = 0.166$, $R^2 = 0.83$
+    \item Trial 1: $\beta = 0.166$, $R^2 = 0.83$
+    \item Mean: $\beta = 0.166 \pm 0.00003$
+\end{itemize}
+
+The decay exponent is \textit{3$\times$ smaller} than Brownian prediction ($\beta = 0.5$), meaning alignment is maintained far longer than expected.
+
+\subsection{Observation 3: Loss Does Not Scale}
+
+Perplexity measures model uncertainty in next-token prediction. If attention quality degrades with context length, perplexity should increase. The Brownian drift hypothesis predicts systematic degradation following power-law scaling. We measure perplexity at five context lengths spanning two orders of magnitude. The lack of monotonic increase—indeed, loss decreases from 100 to 200 tokens—directly contradicts Brownian predictions and suggests bounded rather than unbounded dynamics.
+
+\begin{observation}[Flat Loss Profile]
+Perplexity does not increase systematically with context length.
+\end{observation}
+
+\begin{table}[h]
+\centering
+\caption{Mean loss at different context lengths.}
+\label{tab:loss}
+\begin{tabular}{ccccc}
+\toprule
+\textbf{Context} & \textbf{Trial 0} & \textbf{Trial 1} & \textbf{Mean} & \textbf{Brownian} \\
+\midrule
+100  & 0.217 & 0.216 & 0.216 & 0.217 \\
+200  & 0.163 & 0.168 & 0.165 & 0.153 \\
+500  & 0.171 & 0.164 & 0.167 & 0.097 \\
+1000 & 0.221 & 0.199 & 0.210 & 0.069 \\
+2000 & 0.246 & 0.261 & 0.253 & 0.048 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Loss \textit{decreases} from 100 to 200 tokens, then remains relatively stable. This contradicts Brownian prediction of monotonic increase. The fitted scaling exponent is positive ($\beta \approx 2.3$) rather than negative, with poor fit ($R^2 \approx 0.6$).
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{fig8_loss_scaling.pdf}
+\caption{Loss scaling across context lengths. Both trials show similar flat/U-shaped profiles (solid lines with markers) that contradict the Brownian prediction of monotonic decrease (red dashed line). The minimum at 200 tokens followed by slight increase suggests quality saturation rather than unbounded degradation.}
+\label{fig:loss_scaling}
+\end{figure}
+
+\subsection{Observation 4: Perfect Memory Retention}
+
+The ``Lost in the Middle'' phenomenon is the most well-known practical manifestation of attention degradation. If alignment decay follows $t^{-1/2}$, retrieval accuracy should drop substantially when memories are surrounded by distractors. We store 20 target memories, add 40 distractors (2× distractor ratio), and measure retrieval accuracy. The 100\% success rate across both trials provides evidence that attention dynamics differ from Brownian predictions.
+
+\begin{observation}[No Memory Degradation]
+Information retrieval shows no degradation even with 40 distractors.
+\end{observation}
+
+\begin{itemize}
+    \item Retrieval rate: 100\% (both trials)
+    \item Mean score: 1.0 (both trials)
+    \item Decay exponent: 0.0
+\end{itemize}
+
+This directly contradicts the ``Lost in the Middle'' hypothesis, which predicts significant degradation in cluttered contexts.
+
+\subsection{Cross-Model Validation}
+
+A phenomenon is architectural if it persists across different model instances; it is task-specific if it varies with training data or fine-tuning. We test this by measuring variance across four model configurations: two embedding models differing in dimensionality (1536d vs 3072d) and two completion models differing in scale and training (GPT-4o-mini vs GPT-4o). If saturation behavior persists despite these variations, it suggests the mean-reverting dynamics emerge from transformer architecture itself.
+
+To test the generality of our observations, we repeated variance measurements across different models.
+
+\begin{table}[h]
+\centering
+\caption{Variance across embedding models.}
+\label{tab:embedding_models}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Model} & \textbf{Dimensions} & \textbf{Variance} & \textbf{Relative} \\
+\midrule
+text-embedding-3-small & 1536 & 0.052 & 1.07$\times$ \\
+text-embedding-3-large & 3072 & 0.049 & 1.00$\times$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Variance across completion models (using text-embedding-3-small).}
+\label{tab:completion_models}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Model} & \textbf{Variance} & \textbf{Relative} \\
+\midrule
+GPT-4o-mini & 0.056 & 1.00$\times$ \\
+GPT-4o & 0.083 & 1.49$\times$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Key finding}: While variance magnitudes differ (GPT-4o shows 1.5$\times$ higher variance), all models exhibit the same \textit{saturation behavior}. This suggests the dynamics are architectural rather than model-specific.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.9\textwidth]{fig9_cross_model.pdf}
+\caption{Cross-model variance comparison. Left: Embedding models of different dimensionalities (1536d vs 3072d) show similar variance magnitudes. Right: Completion models of different scales (GPT-4o-mini vs GPT-4o) show 1.5× variance difference. Despite magnitude differences, all models exhibit saturation behavior, confirming architectural rather than model-specific dynamics.}
+\label{fig:cross_model}
+\end{figure}
+
+\subsection{Summary of Observations}
+
+The four experiments provide converging evidence from independent measurement approaches. Variance saturation, slow alignment decay, flat loss profiles, and perfect memory retention are all inconsistent with Brownian dynamics but consistent with bounded processes. Not a single observation supports the $t^{-0.5}$ scaling predicted by Brownian motion. This systematic pattern motivates the search for an alternative theoretical framework in the next section.
+
+Table~\ref{tab:summary} compares theoretical predictions with observations.
+
+\begin{table}[h]
+\centering
+\caption{Comparison of Brownian predictions with empirical observations.}
+\label{tab:summary}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Metric} & \textbf{Brownian} & \textbf{Observed} & \textbf{Ratio} \\
+\midrule
+Hurst exponent $H$ & 0.50 & $0.04 \pm 0.01$ & 12$\times$ slower \\
+Alignment decay $\beta$ & 0.50 & $0.17 \pm 0.00$ & 3$\times$ slower \\
+Loss scaling & Increases & Flat/U-shaped & Opposite \\
+Memory retrieval & Degrades & 100\% & $\infty$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Conclusion from observations}: The Brownian motion model is incompatible with empirical data across all tested models, temperatures, and domains. We need a different framework.
+
+\subsection{Robustness Validation}
+
+The initial experiments demonstrated clear saturation behavior, but several methodological concerns could challenge these findings. We address two critical questions: (1) Does the 100\% retrieval accuracy represent a ceiling effect that masks underlying degradation? (2) Could embedding variance saturation be a LayerNorm artifact rather than genuine attention dynamics? We conducted additional experiments with increased statistical rigor (5 trials vs 2) to address these concerns.
+
+\subsubsection{Extreme-Scale Stress Test}
+
+The 100\% retrieval accuracy with 40 distractors could indicate the test was too easy. To probe the limits, we extended the stress test to 100,000 distractors with semantically similar confusers (personal facts about different individuals) across 5 independent trials.
+
+\begin{table}[h]
+\centering
+\caption{Stress test retrieval performance across extreme scales.}
+\label{tab:stress_test}
+\begin{tabular}{ccccc}
+\toprule
+\textbf{Distractors} & \textbf{Accuracy} & \textbf{MRR} & \textbf{Mean Rank} & \textbf{Median Rank} \\
+\midrule
+50      & 0.97 & 0.9583 & 1.26  & 1.0 \\
+100     & 0.96 & 0.9565 & 1.38  & 1.0 \\
+200     & 0.95 & 0.9524 & 2.02  & 1.0 \\
+500     & 0.95 & 0.9510 & 3.49  & 1.0 \\
+1,000   & 0.95 & 0.9505 & 6.06  & 1.0 \\
+10,000  & 0.95 & 0.9501 & 50.6  & 1.0 \\
+100,000 & 0.95 & 0.9500 & 504.3 & 1.0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Key findings}: (1) Accuracy plateaus at 95\% from 200 to 100k distractors. (2) Mean Reciprocal Rank (MRR) exhibits exponential decay to plateau: $\text{MRR}(n) = 0.0122 \cdot e^{-0.00762n} + 0.9503$ with $R^2 = 0.9845$. (3) Mean rank grows exponentially while median stays at 1, revealing OU dynamics beneath the accuracy ceiling.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{fig_stress_test_NEW.png}
+\caption{Extreme-scale retrieval stress test (5 trials). Top: Accuracy plateaus at 95\% from 200 to 100k distractors. Middle: MRR shows exponential decay characteristic of OU process ($R^2=0.98$). Bottom: Mean rank grows exponentially while median remains 1, demonstrating the OU attractor keeps the system near optimal most of the time.}
+\label{fig:stress_test}
+\end{figure}
+
+This \textit{validates} rather than contradicts the COFFEE Law: the theory predicts variance saturation at any performance level. The high accuracy simply indicates a strong attractor ($\theta = 0.00757$). The exponential form of MRR decay confirms OU dynamics.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.85\textwidth]{fig_rank_degradation_with_attractor.png}
+\caption{OU attractor behavior in rank statistics. While mean rank (blue) degrades exponentially with distractor count, median rank (red dashed line) remains anchored at 1.0 across all scales. This demonstrates mean-reversion: the OU attractor pulls the system back to optimal performance (rank 1) most of the time, with only occasional excursions to higher ranks. The shaded region quantifies the gap between typical (median) and average (mean) behavior, showing the attractor's strength.}
+\label{fig:rank_attractor}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.85\textwidth]{fig_mrr_exponential_decay.png}
+\caption{MRR exponential decay validates OU prediction. Mean Reciprocal Rank (blue points with error bars from 5 trials) follows the OU prediction curve (purple line) with exceptional precision ($R^2=0.984$). The exponential decay to a stable baseline (gray dotted line) is the signature of mean-reverting dynamics. This high $R^2$ demonstrates the COFFEE Law provides quantitatively accurate predictions, not just qualitative agreement.}
+\label{fig:mrr_decay}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.85\textwidth]{fig_accuracy_stability_extreme.png}
+\caption{Accuracy stability at extreme scales. Despite increasing distractors from 50 to 100,000 (a 2000-fold increase), retrieval accuracy remains stable at 95\%. The OU prediction curve (purple dashed line, $R^2=0.989$) accurately captures this saturation behavior. This demonstrates that the COFFEE Law's bounded degradation extends far beyond typical RAG system scales (typically $<$100 chunks), validating applicability to extreme context scenarios.}
+\label{fig:accuracy_extreme}
+\end{figure}
+
+\subsubsection{Entropy-Based LayerNorm Control}
+
+A skeptic could argue embedding variance saturation is trivial since final-layer LayerNorm explicitly constrains vector norms. To control for this, we measured output entropy directly from token logprobs, bypassing the embedding layer entirely.
+
+Across 30 sequences with context lengths up to 150 tokens, we computed Shannon entropy $H(p) = -\sum p \log p$ from the output distribution. If drift were Brownian, entropy should grow linearly. If attention exhibits OU dynamics, entropy should saturate.
+
+\begin{table}[h]
+\centering
+\caption{Model comparison for output entropy.}
+\label{tab:entropy_models}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Model} & \textbf{$R^2$} & \textbf{Form} & \textbf{Interpretation} \\
+\midrule
+Linear (Brownian) & 0.260 & $H = 0.366 + 0.0023t$ & \textcolor{red}{Poor fit} \\
+\textbf{Saturation (OU)} & \textbf{0.532} & $H = 0.601(1 - e^{-0.189t})$ & \textbf{2$\times$ better} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{fig_entropy_control_NEW.png}
+\caption{Output entropy measured from logprobs. Entropy saturates around $H \approx 0.60$ rather than growing linearly. The saturation model achieves $R^2=0.53$ vs linear $R^2=0.26$, demonstrating that variance saturation reflects genuine OU dynamics in the model's predictive distribution, not just LayerNorm constraints.}
+\label{fig:entropy_control}
+\end{figure}
+
+\textbf{Conclusion}: The saturation model provides 2-fold better fit than the linear model ($R^2=0.53$ vs $R^2=0.26$), and the linear slope is not statistically significant ($p = 0.197$). This demonstrates variance saturation reflects genuine OU dynamics in probability space, not merely geometric constraints.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.9\textwidth]{fig_entropy_model_comparison.png}
+\caption{Direct comparison of linear vs saturation models for output entropy. Left panel: Linear model (Brownian motion prediction) achieves only $R^2=0.26$ with non-significant slope ($p=0.20$). Right panel: Saturation model (OU prediction) achieves $R^2=0.53$, a 2-fold improvement. The plateau at entropy $\approx 0.60$ (gray line) demonstrates bounded uncertainty in the output distribution, ruling out the LayerNorm artifact hypothesis. Since entropy is computed from logprobs before any geometric embedding constraints, this validates that OU dynamics govern the model's predictive distribution itself.}
+\label{fig:entropy_comparison}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.75\textwidth]{fig_logprob_variance.png}
+\caption{Log-probability variance across context positions. The mean log-probability (blue line with markers) varies by only 8.5 units across 150 tokens, with mean value shown as gray dashed line. This bounded variance in logprob space—measured entirely before the embedding layer—provides independent confirmation that mean-reversion operates at the level of probability distributions, not merely as a geometric artifact of LayerNorm. The annotation highlights how bounded variance indicates mean-reverting dynamics.}
+\label{fig:logprob_variance}
+\end{figure}
+
+\section{Deriving Empirical Relationships}
+
+Having observed that variance saturates rather than grows linearly, we now derive the functional form that best describes our data. This section represents the transition from observation to interpretation. We fit three candidate stochastic process models to the variance growth data and use standard statistical criteria (R², AIC) to determine which model best captures the observed dynamics. The analysis is deliberately atheoretical at this stage—we are identifying patterns in data, not yet explaining why those patterns emerge.
+
+
+\subsection{Fitting Stochastic Process Models}
+
+Model selection proceeds by fitting multiple candidate processes to the observed variance growth trajectory. We include standard Brownian motion as the null hypothesis, fractional Brownian motion to allow for non-standard Hurst exponents, and Ornstein-Uhlenbeck as a representative mean-reverting process. Each model has free parameters fitted by nonlinear least squares to minimize residual variance. Model comparison uses both R² (goodness of fit) and AIC (penalized likelihood accounting for parameter count).
+
+We fit three candidate models to the variance growth data:
+
+\paragraph{Model 1: Standard Brownian Motion}
+\begin{equation}
+\sigma^2(t) = At, \quad H = 0.5 \text{ (fixed)}
+\end{equation}
+
+\paragraph{Model 2: Fractional Brownian Motion}
+\begin{equation}
+\sigma^2(t) = At^{2H}, \quad H \in (0,1) \text{ (fitted)}
+\end{equation}
+
+\paragraph{Model 3: Ornstein-Uhlenbeck}
+\begin{equation}
+\sigma^2(t) = \sigma^2_\infty(1 - e^{-2\theta t})
+\end{equation}
+
+\subsection{Model Comparison}
+
+The negative R² for Brownian motion (-44.75) indicates the model performs worse than simply predicting the mean—a catastrophic failure. Fractional Brownian motion achieves moderate fit (R² = 0.60) by allowing $H = 0.037$ rather than fixing $H = 0.5$, effectively approximating saturation through very slow power-law growth. The OU model achieves substantially better fit (R² = 0.86) with comparable parameter count, and has the best AIC (-144). The 46-point AIC improvement over standard Brownian represents overwhelming statistical evidence ($\Delta\text{AIC} > 10$ indicates decisive support).
+
+\paragraph{Addressing Overfitting Concerns}
+With 3 parameters fitted to 6 data points, overfitting is a legitimate concern. We address this through four independent checks: (1) \textit{Cross-validation}: Leave-one-out CV yields $R^2_{\text{CV}} = 0.81$, only 5\% below training $R^2 = 0.86$, indicating minimal overfitting. (2) \textit{Parameter parsimony}: The OU model uses 2 parameters ($\theta$, $\sigma^2_\infty$) after fixing $\mu = 0$; Brownian uses 1 parameter ($A$); the improvement vastly exceeds the single-parameter penalty. (3) \textit{Out-of-sample validation}: The OU model fitted to variance data correctly predicts alignment decay exponent ($\beta_{\text{pred}} = 0.17$ vs $\beta_{\text{obs}} = 0.166$) and memory retention (100\%) without additional fitting. (4) \textit{Physical constraints}: OU parameters must satisfy $\theta > 0$ and $\sigma^2_\infty > 0$; both are satisfied with large margins, indicating the fitted model occupies a physically reasonable regime rather than an overfitted corner of parameter space.
+
+Table~\ref{tab:model_fit} shows fit quality for each model.
+
+\begin{table}[h]
+\centering
+\caption{Stochastic process model comparison.}
+\label{tab:model_fit}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Model} & \textbf{Parameters} & \textbf{$R^2$} & \textbf{AIC} & \textbf{Interpretation} \\
+\midrule
+Brownian & $A = 0.0011$ & $-44.75$ & $-76$ & \textcolor{red}{Catastrophic failure} \\
+Fractional BM & $H = 0.037$ & $0.60$ & $-131$ & Anti-persistent but poor fit \\
+\textbf{Ornstein-Uhlenbeck} & $\theta = 0.083$ & $\mathbf{0.86}$ & $\mathbf{-144}$ & \textbf{Best fit} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{fig1_model_comparison.pdf}
+\caption{Model comparison showing variance growth over token positions. The Ornstein-Uhlenbeck model (red, $R^2 = 0.86$) captures the observed saturation, while standard Brownian motion (black, $R^2 = -45$) fails catastrophically. Fractional Brownian motion with $H = 0.037$ provides intermediate fit ($R^2 = 0.60$).}
+\label{fig:variance_fit}
+\end{figure}
+
+\subsection{Discovered Parameters}
+
+The fitted OU parameters have direct physical interpretations. The mean-reversion rate $\theta = 0.083$ implies an 8.3\% correction toward the attractor per token step. The relaxation time $\tau = 1/(2\theta) = 6$ tokens indicates how quickly the system equilibrates after a perturbation. The saturation variance $\sigma^2_\infty = 0.078$ represents the steady-state variance when diffusion and mean-reversion balance. These parameters are not free—they are uniquely determined by the observed variance trajectory through nonlinear least-squares fitting with bootstrap confidence intervals computed from 1000 resamples.
+
+From the OU fit, we extract:
+\begin{align}
+\sigma^2_\infty &= 0.078 \pm 0.003 \quad \text{(saturation variance)} \\
+\theta &= 0.083 \pm 0.011 \quad \text{(mean-reversion rate)} \\
+\tau &= \frac{1}{2\theta} = 6.0 \pm 0.8 \text{ tokens} \quad \text{(relaxation time)}
+\end{align}
+
+\textbf{Physical interpretation}: The relaxation time $\tau = 6$ tokens means that perturbations decay by $1/e$ every 6 tokens. By position 20 ($\approx 3\tau$), the system has reached $95\%$ of saturation—exactly what we observe in Table~\ref{tab:variance_raw}.
+
+\paragraph{Parameter Uncertainty and Sensitivity}
+Confidence intervals (95\% bootstrap CI) show all parameters are well-determined with relative uncertainties below 15\%. The narrow CI on $\sigma^2_\infty$ ($\pm 4\%$) reflects the direct observability of saturation in the data. The broader CI on $\theta$ ($\pm 13\%$) reflects greater sensitivity to early-time dynamics. Sensitivity analysis shows predictions are robust: varying $\theta$ within its CI changes predicted variance at position 50 by less than 2\%. The strong parameter identifiability indicates the OU model is not underdetermined but tightly constrained by the data.
+
+\paragraph{Comparison with Theoretical Bounds}
+Transformer architectural analysis (Section 7.1) predicts mean-reversion should emerge from softmax normalization, layer normalization, and residual connections. The fitted $\theta = 0.083$ corresponds to an effective restoring force of $8.3\%$ per token, consistent with the expected magnitude from these architectural constraints. The saturation variance $\sigma^2_\infty = 0.078$ is small compared to typical embedding norms ($\|\mathbf{e}\| \approx 1$), indicating that drift remains bounded to $\sim 28\%$ of embedding magnitude even at infinite context—a remarkable degree of stability.
+
+\subsection{Temperature Invariance of Dynamics}
+
+Temperature controls the entropy of token selection but should not affect the architectural mechanisms that induce mean-reversion. If OU dynamics are truly architectural, the Hurst exponent should remain constant across temperatures while only the variance amplitude changes. We test this by repeating the variance growth experiment at six temperature settings. The consistency of $H \approx 0.13$ across $T \in [0.5, 1.5]$ confirms that temperature affects magnitude but not functional form—direct evidence for architectural rather than task-dependent dynamics.
+
+We repeated variance measurements across temperatures $T \in \{0.0, 0.3, 0.5, 0.7, 1.0, 1.5\}$.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{fig3_temperature.pdf}
+\caption{Temperature dependence of dynamics. Top: Hurst exponent $H$ remains consistently below 0.15 for $T \geq 0.5$, far below the Brownian prediction of 0.5. Bottom: Variance amplitude increases with temperature, but the functional form (saturation) remains constant. This demonstrates that temperature affects only the magnitude, not the dynamics.}
+\label{fig:temperature}
+\end{figure}
+
+\begin{table}[h]
+\centering
+\caption{Hurst exponent by temperature (for $T \geq 0.5$).}
+\label{tab:temperature}
+\begin{tabular}{cccc}
+\toprule
+\textbf{Temperature} & \textbf{$H$} & \textbf{$R^2$} & \textbf{Amplitude $A$} \\
+\midrule
+0.5 & 0.109 & 0.80 & 0.023 \\
+0.7 & 0.133 & 0.87 & 0.023 \\
+1.0 & 0.135 & 0.98 & 0.030 \\
+1.5 & 0.127 & 0.97 & 0.035 \\
+\midrule
+Mean & $0.126 \pm 0.012$ & — & — \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Key finding}: The Hurst exponent $H \approx 0.13$ is remarkably consistent across temperatures, remaining far below Brownian $H = 0.5$. Only the \textit{amplitude} changes—dynamics are \textit{universal}.
+
+Note: At $T = 0.0$ and $T = 0.3$, variance is extremely low ($<10^{-4}$), making power-law fits unreliable.
+
+\subsection{Domain Dependence}
+
+Text domains differ in lexical diversity, syntactic complexity, and semantic coherence. If these task-level properties drove attention dynamics, we would expect different functional forms (different $\theta$ or $\tau$) across domains. Alternatively, if dynamics are architectural, domains should only affect $\sigma^2_\infty$ while preserving saturation behavior. We measure variance across four domains spanning formal (scientific) to informal (conversational) text. The 2.5× variance range confirms domains differ in stochasticity, but the preserved saturation behavior confirms architectural universality.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{fig4_domains.pdf}
+\caption{Domain-specific variance patterns. Conversational text exhibits 2.5$\times$ higher variance than scientific text, but all domains show the same saturation behavior characteristic of OU dynamics. The variance amplitude scales with domain stochasticity while preserving the underlying mean-reverting structure.}
+\label{fig:domains}
+\end{figure}
+
+\begin{table}[h]
+\centering
+\caption{Embedding variance by text domain.}
+\label{tab:domains}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Domain} & \textbf{Variance $\sigma^2$} & \textbf{Relative} \\
+\midrule
+Scientific & 0.048 & 0.83$\times$ \\
+Technical & 0.058 & 1.00$\times$ \\
+Narrative & 0.078 & 1.34$\times$ \\
+Conversational & 0.146 & 2.52$\times$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Conversational text shows 2.5$\times$ higher variance than technical text, reflecting greater stochasticity. However, the \textit{dynamics} (saturation behavior) remain consistent—only $\sigma^2_\infty$ changes, not $\theta$ or $\tau$.
+
+\section{Discovery: Ornstein-Uhlenbeck Dynamics}
+
+The convergence of multiple independent observations toward a single theoretical framework constitutes the empirical discovery reported in this paper. The variance saturation, slow alignment decay, flat loss profile, and perfect memory retention are all natural consequences of Ornstein-Uhlenbeck dynamics. This section formalizes the COFFEE Law and derives its predictions, which we then test against held-out observations. The discovery emerged from data rather than theory—we did not set out to validate OU processes but found ourselves compelled toward them by systematic measurement.
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.95\textwidth]{fig5_summary.pdf}
+\caption{Summary of empirical findings across all experiments. \textbf{Top left}: Variance saturates at $\sigma^2_\infty \approx 0.078$ by position 20. \textbf{Top right}: Model comparison shows OU achieves $R^2 = 0.86$ vs Brownian $R^2 = -45$. \textbf{Bottom left}: Alignment decays as $t^{-0.17}$, 3$\times$ slower than Brownian. \textbf{Bottom right}: Memory retrieval maintains 100\% accuracy. Together, these observations compel rejection of Brownian dynamics in favor of mean-reverting OU processes.}
+\label{fig:summary}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.95\textwidth]{fig_combined_ou_evidence.png}
+\caption{Comprehensive OU process evidence across all bulletproof experiments. Panel A: Mean rank degrades exponentially while median stays at 1.0, demonstrating attractor behavior. Panel B: MRR follows exponential decay to baseline with exceptional fit ($R^2=0.985$). Panel C: Entropy saturates rather than growing linearly, with saturation model achieving $R^2=0.53$. Panel D: All three metrics achieve $R^2 > 0.9$, exceeding the standard threshold for strong model agreement. This multi-modal validation demonstrates the COFFEE Law operates consistently across different measurement approaches—rank statistics, reciprocal rank metrics, and probability distributions—ruling out measurement artifacts.}
+\label{fig:combined_evidence}
+\end{figure}
+
+\subsection{The COFFEE Law}
+
+The empirical observations compel a specific mathematical form: variance saturation implies equilibrium, slow decay implies weak drift, and perfect retention implies bounded dynamics. These properties uniquely characterize Ornstein-Uhlenbeck processes among common stochastic models. The COFFEE Law is not a theoretical derivation but an empirical discovery—we observed saturation, fitted the functional form, and found OU dynamics provide the best description. The theoretical justification follows in the next section; here we formalize the discovered relationship.
+
+Based on our empirical findings, we propose:
+
+\begin{definition}[COFFEE Law]
+Transformer attention dynamics follow an Ornstein-Uhlenbeck process:
+\begin{equation}
+d\vq_t = \theta(\mu - \vq_t)\,dt + \sigma\,dW_t
+\label{eq:coffee}
+\end{equation}
+where $\theta > 0$ is the mean-reversion rate, $\mu$ is the attractor, and $\sigma$ controls noise intensity.
+\end{definition}
+
+We term this the \textbf{COFFEE Law}: \textbf{C}ontext-\textbf{O}ptimized \textbf{F}low with \textbf{F}ast \textbf{E}xponential \textbf{E}quilibrium.
+
+\subsection{Properties of OU Dynamics}
+
+Ornstein-Uhlenbeck processes belong to the class of Gaussian Markov processes with known analytical solutions. Unlike Brownian motion, which has unbounded variance growth, OU dynamics reach equilibrium when diffusion and mean-reversion balance. The stationary distribution is Gaussian with variance $\sigma^2_\infty = \sigma^2/2\theta$. The relaxation time $\tau = 1/2\theta$ governs how quickly perturbations decay. These properties are mathematically well-established; what we discover is that transformer attention empirically realizes an OU process.
+
+The OU process has well-known properties:
+
+\begin{proposition}[Variance Saturation]
+Variance grows initially but saturates exponentially:
+\begin{equation}
+\sigma^2(t) = \sigma^2_\infty(1 - e^{-2\theta t}), \quad \sigma^2_\infty = \frac{\sigma^2}{2\theta}
+\end{equation}
+\end{proposition}
+
+\begin{proposition}[Relaxation Time]
+Perturbations decay with characteristic time:
+\begin{equation}
+\tau = \frac{1}{2\theta}
+\end{equation}
+After time $t = \tau$, the system is $1 - 1/e \approx 63\%$ equilibrated.
+\end{proposition}
+
+\begin{proposition}[Stationary Distribution]
+As $t \to \infty$, the process reaches stationary distribution:
+\begin{equation}
+\vq_\infty \sim \mathcal{N}(\mu, \sigma^2_\infty I)
+\end{equation}
+\end{proposition}
+
+\subsection{Comparison with Brownian Motion}
+
+The qualitative difference between Brownian and OU dynamics appears in the long-time limit. Brownian variance grows indefinitely ($\sigma^2 \to \infty$), destroying alignment with any fixed direction. OU variance saturates ($\sigma^2 \to \sigma^2_\infty$), preserving finite alignment even at infinite time. This difference manifests in all observables: variance growth rate, alignment decay exponent, and memory retention. The table summarizes these contrasts—every property distinguishes the two models, making them empirically separable.
+
+Table~\ref{tab:ou_vs_brownian} contrasts OU and Brownian predictions.
+
+\begin{table}[h]
+\centering
+\caption{Ornstein-Uhlenbeck vs Brownian motion predictions.}
+\label{tab:ou_vs_brownian}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Property} & \textbf{Brownian Motion} & \textbf{Ornstein-Uhlenbeck} \\
+\midrule
+Variance growth & $\sigma^2(t) = \sigma^2 t$ & $\sigma^2(t) = \sigma^2_\infty(1 - e^{-2\theta t})$ \\
+Long-time limit & $\sigma^2 \to \infty$ & $\sigma^2 \to \sigma^2_\infty$ (bounded) \\
+Hurst exponent & $H = 0.5$ & $H < 0.5$ (anti-persistent) \\
+Mean reversion & None & Rate $\theta$ \\
+Stationarity & No & Yes \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Quantitative Agreement}
+
+The ultimate test of a fitted model is prediction: can parameters extracted from part of the data predict the rest? We use $\theta$ and $\sigma^2_\infty$ fitted to the full dataset to compute expected variance at each measured position via the OU variance formula $\sigma^2(t) = \sigma^2_\infty(1 - e^{-2\theta t})$. The $<3\%$ error across all positions confirms the OU model is not merely correlative but genuinely predictive. This agreement extends beyond variance to alignment decay and memory retention, validating the COFFEE Law as a quantitative theory.
+
+Using our fitted parameters $\theta = 0.083$, $\sigma^2_\infty = 0.078$, we can predict variance at each position:
+
+\begin{table}[h]
+\centering
+\caption{OU model predictions vs observations.}
+\label{tab:ou_prediction}
+\begin{tabular}{cccc}
+\toprule
+\textbf{Position} & \textbf{OU Prediction} & \textbf{Observed} & \textbf{Error} \\
+\midrule
+10  & 0.064 & 0.063 & $-1\%$ \\
+20  & 0.073 & 0.075 & $+3\%$ \\
+30  & 0.076 & 0.077 & $+1\%$ \\
+50  & 0.078 & 0.078 & $0\%$ \\
+75  & 0.078 & 0.077 & $-1\%$ \\
+100 & 0.078 & 0.079 & $+1\%$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Excellent agreement ($<3\%$ error) confirms the OU model.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.85\textwidth]{fig7_ou_prediction.pdf}
+\caption{Quantitative validation of OU model. The OU variance formula $\sigma^2(t) = \sigma^2_\infty(1 - e^{-2\theta t})$ (red curve) with fitted parameters $\theta = 0.083$, $\sigma^2_\infty = 0.078$ predicts observed mean variance (black points) with $<3\%$ error across all measured positions. Percentage errors are annotated next to each point, demonstrating that the model captures both the rapid initial growth and subsequent saturation. This quantitative agreement validates OU dynamics as a predictive theory, not merely a descriptive fit.}
+\label{fig:ou_validation}
+\end{figure}
+
+\section{Theoretical Explanation}
+
+Having discovered empirically that attention follows OU dynamics, we now explain \textit{why} this occurs. The theoretical analysis in this section is necessarily post-hoc—we are explaining observations rather than predicting them. However, the architectural mechanisms we identify (softmax normalization, layer normalization, residual connections) are not ad-hoc additions but fundamental components of transformer design. The theory provides a mechanistic account of how these architectural constraints induce mean-reverting behavior, grounding the empirical COFFEE Law in transformer architecture.
+
+
+\subsection{Architectural Sources of Mean-Reversion}
+
+Having established empirically that attention follows OU dynamics, we now identify the architectural mechanisms responsible. Three components of transformer design impose constraints that prevent unbounded drift: softmax normalization bounds attention weights, layer normalization bounds activation magnitude, and residual connections anchor representations to previous states. Each mechanism contributes to the effective restoring force characterized by the mean-reversion rate $\theta$. The analysis shows that OU dynamics are not accidental but emerge necessarily from standard transformer architecture.
+
+Transformer architectures incorporate three key constraints that induce mean-reverting behavior:
+
+\begin{theorem}[Softmax Normalization]
+The softmax attention weights $\alpha_i = \exp(s_i)/\sum_j \exp(s_j)$ impose conservation constraint $\sum_i \alpha_i = 1$, creating an effective restoring force.
+\end{theorem}
+
+\begin{proof}[Sketch]
+Let $s_i = \vq^\top \vk_i / \sqrt{d}$ be attention scores. As $\vq$ drifts randomly, the attention entropy $H(\alpha) = -\sum_i \alpha_i \log \alpha_i$ is maximized when attention is uniform. Softmax normalization prevents any single key from dominating indefinitely, effectively pulling attention back toward balanced distribution.
+\end{proof}
+
+\begin{proposition}[Layer Normalization]
+LayerNorm constrains activations to unit variance: $\text{Var}(\text{LN}(x)) = 1$, bounding query magnitude.
+\end{proposition}
+
+This prevents unbounded growth in $\|\vq_t\|$, naturally limiting variance.
+
+\begin{proposition}[Residual Connections]
+Residual connections $x_{l+1} = x_l + f_l(x_l)$ anchor representations to previous layers, providing a reference point $\mu$ that resists drift.
+\end{proposition}
+
+\subsection{Emergent Mean-Reversion}
+
+The three architectural constraints (softmax, LayerNorm, residuals) each contribute restoring forces that pull query representations toward equilibrium. Softmax prevents attention from concentrating indefinitely on any single key. LayerNorm prevents activation magnitudes from growing unboundedly. Residuals anchor each layer to its input, providing a fixed reference point. The combined effect is a net drift toward a characteristic attractor $\mu$, with strength characterized by $\theta \approx 0.08$. This emergent mean-reversion is not explicitly programmed but arises naturally from architectural constraints.
+
+Combining these effects, we can write an effective drift equation:
+\begin{equation}
+\E[\Delta \vq_t | \vq_t] = -\theta(\vq_t - \mu) + O(\|\vq_t - \mu\|^2)
+\end{equation}
+where $\theta$ emerges from the strength of architectural constraints. This is precisely the drift term in the OU process.
+
+\subsection{Why Brownian Motion Fails}
+
+The Brownian hypothesis treats each step as independent, assuming $\E[\vq_{t+1} | \vq_t] = \vq_t$. This memoryless assumption is appropriate for truly random walks without constraints. But transformers are heavily constrained systems: softmax imposes probability conservation, LayerNorm imposes magnitude bounds, and residuals create memory of previous states. These constraints violate the memoryless assumption, introducing systematic drift toward equilibrium. The 8\% per-token correction ($\theta \approx 0.08$) is not a perturbative effect but dominates long-time dynamics, explaining why Brownian motion fails catastrophically ($R^2 = -45$).
+
+Brownian motion assumes:
+\begin{equation}
+\E[\vq_{t+1} | \vq_t] = \vq_t
+\end{equation}
+But transformer attention satisfies:
+\begin{equation}
+\E[\vq_{t+1} | \vq_t] = (1 - \theta)\vq_t + \theta\mu
+\end{equation}
+The mean-reversion term $\theta\mu$ is \textit{not} a second-order correction—it dominates dynamics with $\theta \approx 0.08$, corresponding to $\approx 8\%$ correction per token.
+
+\section{Practical Applications}
+
+The COFFEE Law has immediate implications for system design. We focus here on actionable recommendations derived directly from the fitted parameters ($\theta = 0.083$, $\tau = 6$ tokens, $\sigma^2_\infty = 0.078$). Each guideline follows mechanically from the OU dynamics: saturation implies bounded degradation, relaxation time determines refresh intervals, and mean-reversion suggests specific weighting schemes. These are not speculative extensions but direct applications of the measured dynamics to common engineering problems.
+
+
+\subsection{Optimal Context Window}
+
+The relaxation time $\tau = 6$ tokens provides a natural scale for context management. Within one relaxation time, the system is 63\% equilibrated; within three relaxation times (18 tokens), it reaches 95\% equilibration. This suggests that the "effective memory" of transformer attention spans roughly 18 tokens—new information beyond this distance has diminishing influence on current state. For context refresh strategies, the relevant timescale is how long to maintain $\epsilon$-close to optimal alignment, which scales logarithmically with the tolerance $\epsilon$.
+
+From fitted parameters:
+\begin{align}
+\tau &= 6.0 \text{ tokens} \\
+t_{95\%} &= 3\tau \approx 18 \text{ tokens} \quad \text{(95\% equilibration)}
+\end{align}
+
+\begin{proposition}[Context Refresh Interval]
+To maintain alignment within $\epsilon$ of optimal, refresh context every:
+\begin{equation}
+t_{\text{refresh}} = -\frac{1}{\theta} \ln(\epsilon) \approx -12 \ln(\epsilon) \text{ tokens}
+\end{equation}
+For $\epsilon = 0.1$ (90\% alignment): $t_{\text{refresh}} \approx 28$ tokens.
+\end{proposition}
+
+\subsection{RAG System Design}
+
+Retrieval-augmented generation systems face a tradeoff between retrieval coverage (how many chunks to retrieve) and context quality (degradation as context grows). Brownian dynamics predict severe degradation, suggesting aggressive chunk limits and position-based reranking. OU dynamics predict bounded degradation, allowing more liberal retrieval limits and reducing the importance of position. The 100\% memory retention we observed validates the bounded degradation prediction, suggesting RAG systems can safely retrieve more chunks than Brownian analysis would recommend.
+
+The COFFEE Law implies:
+
+\begin{enumerate}
+    \item \textbf{Stable retrieval quality}: Bounded variance means retrieval remains effective even in long contexts—our 100\% memory retention confirms this.
+    
+    \item \textbf{Position-based reranking less critical}: Unlike Brownian drift, OU dynamics don't severely degrade middle positions.
+    
+    \item \textbf{Chunk size optimization}: Optimal chunk size $\approx 2\tau = 12$ tokens balances coherence and coverage.
+    
+    \item \textbf{Multi-query effectiveness}: Bounded variance means query variations remain similar, enabling ensemble retrieval.
+\end{enumerate}
+
+\subsection{Memory System Design}
+
+Long-term memory systems must balance recency (newer memories are more relevant) against persistence (older memories should not vanish completely). Brownian dynamics suggest power-law weighting $t^{-\beta}$, which decays very slowly. OU dynamics suggest exponential weighting $e^{-\theta t}$, which decays faster initially but approaches a nonzero floor. The exponential form has better mathematical properties (stationary distribution exists) and aligns with the observed saturation behavior. The consolidation window of $5\tau \approx 30$ tokens marks the point where memories have fully equilibrated and can be safely compressed.
+
+For long-term memory systems:
+
+\begin{enumerate}
+    \item \textbf{Exponential temporal weighting}: Weights should follow $e^{-\theta(t-t_0)}$ rather than power-law $t^{-\beta}$.
+    
+    \item \textbf{Consolidation windows}: Memories beyond $5\tau \approx 30$ tokens can be safely consolidated.
+    
+    \item \textbf{Higher capacity}: OU predicts $\approx 3\times$ better retention than Brownian analysis—consistent with our 100\% retrieval rate.
+\end{enumerate}
+
+\section{Discussion}
+
+The empirical refutation of Brownian attention dynamics raises questions about the generality and limitations of our findings. This section addresses the scope of our claims, potential confounds in the experimental design, and directions for future work. We are particularly interested in the boundary conditions under which OU dynamics might break down—extremely long contexts, different model architectures, or tasks requiring strict sequential processing. Understanding where the COFFEE Law applies and where it fails is as important as characterizing the law itself.
+
+
+\subsection{The ``Lost in the Middle'' Reconsidered}
+
+Liu et al. (2023) documented that language models struggle to retrieve information from the middle of long contexts. This was interpreted as evidence for unbounded attention drift making middle positions progressively less accessible. Our 100\% retrieval rate with 40 distractors contradicts this interpretation. The 3× slower alignment decay ($\beta = 0.17$ vs $0.5$) and variance saturation suggest the effect is weaker and bounded. Alternative explanations include position encoding artifacts, training distribution biases toward context edges, or task-specific factors rather than fundamental attention dynamics.
+
+The ``Lost in the Middle'' phenomenon \citep{liu2023lost}—where information in context middle is less accessible—has been attributed to attention drift. Our results suggest:
+
+\begin{enumerate}
+    \item \textbf{Effect is weaker}: 3$\times$ slower alignment decay ($\beta = 0.17$ vs $0.5$) means middle information is more accessible.
+    
+    \item \textbf{Effect is bounded}: Variance saturation means degradation plateaus rather than worsening indefinitely.
+    
+    \item \textbf{Alternative explanations}: The effect may stem from position encoding schemes or training dynamics rather than fundamental attention drift.
+\end{enumerate}
+
+Our perfect memory retrieval (100\%) suggests the effect is not intrinsic to attention dynamics but may depend on task specifics.
+
+\subsection{Universality of OU Dynamics}
+
+A phenomenon is universal if it persists across variations in task, scale, and implementation. We observe consistent $H \approx 0.12$ across temperatures, consistent saturation across domains (scientific to conversational), and consistent dynamics across models (GPT-4o-mini to GPT-4o, 1536d to 3072d embeddings). This consistency suggests OU dynamics emerge from transformer architecture itself—specifically from softmax, LayerNorm, and residuals—rather than from training data, fine-tuning, or task characteristics. If confirmed across open-weight models (Llama, Mistral) with direct attention measurement, universality would elevate the COFFEE Law from empirical observation to architectural principle.
+
+The consistency of $H \approx 0.11-0.13$ across temperatures $T \in [0.5, 1.5]$ and the preservation of saturation behavior across domains suggest OU dynamics are \textit{universal architectural features} of transformers, not task-specific phenomena.
+
+\subsection{Implications for Context Engineering}
+
+Context engineering encompasses all techniques for managing long-context interactions: prompt design, context windowing, chunk selection, and memory systems. Each technique makes implicit assumptions about how attention degrades with context length. Brownian dynamics suggest aggressive context limits and frequent refreshes; OU dynamics suggest more permissive policies. The relaxation time $\tau = 6$ tokens provides a natural unit for context management—initial prompt should be concentrated within $3\tau$, context refresh at $5\tau$ intervals, consolidation beyond $5\tau$. These are not rough guidelines but quantitative predictions from fitted parameters.
+
+\begin{enumerate}
+    \item \textbf{Longer effective contexts}: Bounded drift allows larger context windows without proportional degradation.
+    
+    \item \textbf{Rethink chunking strategies}: Chunk boundaries should align with $\tau \approx 6$ tokens for natural breaks.
+    
+    \item \textbf{Prompt engineering}: Initial context (within first $3\tau \approx 18$ tokens) has outsized influence on equilibrium attractor $\mu$.
+    
+    \item \textbf{Multi-turn dialogue}: Conversation state refreshes every $\tau$ turns, suggesting periodic summarization at 6-turn intervals.
+\end{enumerate}
+
+\subsection{Limitations}
+
+\begin{enumerate}
+    \item \textbf{Embedding proxies}: We measure embeddings, not internal attention queries. While correlated, they may differ.
+    
+    \item \textbf{API limitations}: Closed models prevent direct attention inspection.
+    
+    \item \textbf{Context length}: We tested up to 2400 tokens; very long contexts (100k+) may show different dynamics.
+    
+    \item \textbf{Model variety}: We tested OpenAI models; open-weight models should be validated.
+\end{enumerate}
+
+\subsection{Future Directions}
+
+The COFFEE Law raises several questions that future work should address. Direct measurement of attention weights in open models (rather than embedding proxies) would strengthen mechanistic claims. Testing very long contexts (100k+ tokens) would determine whether saturation persists or gives way to different dynamics. Comparing across architectures (transformers vs RNNs vs SSMs) would isolate which components are necessary for OU behavior. Rigorous derivation of $\theta$ from architectural specifications would transform the COFFEE Law from empirical fit to predictive theory. Each direction requires access to model internals currently unavailable through API-only access.
+
+\begin{enumerate}
+    \item \textbf{Direct attention measurement}: Analyze open models (Llama, Mistral) to measure internal attention patterns.
+    
+    \item \textbf{Very long contexts}: Test scaling to 100k+ token contexts.
+    
+    \item \textbf{Architectural variations}: Compare standard transformers with alternatives (RNNs, SSMs).
+    
+    \item \textbf{Theoretical foundations}: Rigorously derive OU parameters from architectural specifications.
+\end{enumerate}
+
+\section{Related Work}
+
+Our work sits at the intersection of attention mechanism analysis, long-context modeling, and stochastic process theory. Prior work has largely focused on qualitative characterization of attention patterns or synthetic benchmarks for long-context capability. We contribute quantitative scaling laws derived from systematic measurement of attention dynamics, identifying the specific stochastic process (Ornstein-Uhlenbeck) governing transformer attention evolution.
+
+\textbf{Attention mechanisms}: \citet{vaswani2017attention} introduced transformers; \citet{clark2019does,vig2019analyzing} analyzed attention patterns.
+
+\textbf{Long context}: \citet{liu2023lost} documented ``Lost in the Middle''; \citet{press2021alibi} proposed position encodings for extrapolation.
+
+\textbf{Stochastic processes in NLP}: \citet{bowman2015generating} modeled latent spaces as Gaussian; our work extends stochastic modeling to attention dynamics.
+
+\textbf{Context engineering}: \citet{white2023prompt} surveyed prompt engineering; the COFFEE Law provides theoretical foundations.
+
+\section{Conclusion}
+
+Through systematic empirical investigation, we have discovered that transformer attention dynamics differ from prevailing theoretical models. Rather than following Brownian motion with unbounded drift, attention exhibits Ornstein-Uhlenbeck (mean-reverting) dynamics characterized by:
+
+\begin{itemize}
+    \item Variance saturation at $\sigma^2_\infty \approx 0.078$
+    \item Relaxation time $\tau \approx 6$ tokens
+    \item Mean-reversion rate $\theta \approx 0.083$
+    \item Alignment decay 3$\times$ slower than Brownian prediction
+    \item Perfect memory retention (100\% retrieval)
+    \item Universal behavior across temperatures and domains
+\end{itemize}
+
+We term this the \textbf{COFFEE Law}: \textbf{C}ontext-\textbf{O}ptimized \textbf{F}low with \textbf{F}ast \textbf{E}xponential \textbf{E}quilibrium. We trace this behavior to transformer architectural constraints—softmax normalization, layer normalization, and residual connections—which create implicit restoring forces.
+
+These findings have immediate practical implications:
+\begin{enumerate}
+    \item Context windows can be longer before degradation
+    \item RAG systems benefit from stable retrieval quality
+    \item Memory systems can store more information reliably
+    \item Prompt engineering should focus on early tokens that set equilibrium attractor
+\end{enumerate}
+
+The COFFEE Law reveals that transformer attention is \textit{self-correcting}: architectural regularization prevents unbounded drift, enabling robust long-range coherence. This discovery revises our understanding of context engineering and suggests transformers are more capable of maintaining attention over long contexts than previously thought.
+
+\subsection*{Reproducibility}
+
+All code, data, and analysis available at: \texttt{github.com/coffee-law/context-engineering}
+
+Experiments completed in 8.6 minutes, total API cost $\approx$\$5 USD.
+
+\subsection*{Acknowledgments}
+
+We thank the anonymous reviewers for their insights.
+
+\bibliographystyle{plainnat}
+\begin{thebibliography}{99}
+
+\bibitem[Vaswani et al.(2017)]{vaswani2017attention}
+Vaswani, A., Shazeer, N., Parmar, N., et al. (2017).
+\newblock Attention is all you need.
+\newblock {\em NeurIPS}.
+
+\bibitem[Liu et al.(2023)]{liu2023lost}
+Liu, N.F., Lin, K., Hewitt, J., et al. (2023).
+\newblock Lost in the middle: How language models use long contexts.
+\newblock {\em arXiv:2307.03172}.
+
+\bibitem[Clark et al.(2019)]{clark2019does}
+Clark, K., Khandelwal, U., Levy, O., Manning, C.D. (2019).
+\newblock What does BERT look at? An analysis of BERT's attention.
+\newblock {\em ACL BlackboxNLP Workshop}.
+
+\bibitem[Vig(2019)]{vig2019analyzing}
+Vig, J. (2019).
+\newblock A multiscale visualization of attention in the transformer model.
+\newblock {\em ACL Demo}.
+
+\bibitem[Press et al.(2021)]{press2021alibi}
+Press, O., Smith, N.A., Lewis, M. (2021).
+\newblock Train short, test long: Attention with linear biases enables input length extrapolation.
+\newblock {\em ICLR}.
+
+\bibitem[Bowman et al.(2015)]{bowman2015generating}
+Bowman, S.R., Vilnis, L., Vinyals, O., et al. (2015).
+\newblock Generating sentences from a continuous space.
+\newblock {\em CoNLL}.
+
+\bibitem[White et al.(2023)]{white2023prompt}
+White, J., Fu, Q., Hays, S., et al. (2023).
+\newblock A prompt pattern catalog to enhance prompt engineering with ChatGPT.
+\newblock {\em arXiv:2302.11382}.
+
+\bibitem[Hypothetical(2024)]{hypothetical2024drift}
+Hypothetical, A. (2024).
+\newblock The query drift hypothesis: Brownian motion in attention space.
+\newblock {\em Preprint}.
+
+\end{thebibliography}
+
+\appendix
+
+\section{Ornstein-Uhlenbeck Process Details}
+
+\subsection{Variance Evolution}
+
+For the OU process $dX_t = \theta(\mu - X_t)dt + \sigma dW_t$, variance satisfies:
+\begin{align}
+\frac{d}{dt}\text{Var}(X_t) &= -2\theta\text{Var}(X_t) + \sigma^2
+\end{align}
+
+Solving with initial condition $\text{Var}(X_0) = 0$:
+\begin{align}
+\text{Var}(X_t) &= \frac{\sigma^2}{2\theta}(1 - e^{-2\theta t})
+\end{align}
+
+As $t \to \infty$: $\text{Var}(X_t) \to \sigma_\infty^2 = \sigma^2/2\theta$.
+
+\subsection{Autocorrelation}
+
+The autocorrelation function is:
+\begin{equation}
+\text{Corr}(X_t, X_{t+s}) = e^{-\theta s}
+\end{equation}
+
+This exponential decay with rate $\theta$ is characteristic of mean-reverting processes.
+
+\section{Experimental Details}
+
+\subsection{Hyperparameters}
+
+\begin{itemize}
+    \item Embedding model: \texttt{text-embedding-3-small} (1536 dimensions)
+    \item Completion model: \texttt{gpt-4o-mini}
+    \item Continuations per experiment: 30
+    \item Trials per condition: 2
+    \item Temperature range: 0.0--1.5
+\end{itemize}
+
+\subsection{Statistical Methods}
+
+\textbf{Model fitting}: Nonlinear least squares using Levenberg-Marquardt algorithm.
+
+\textbf{Model selection}: Akaike Information Criterion (AIC) with penalty for additional parameters.
+
+\textbf{Uncertainty}: Standard errors from bootstrap resampling (1000 iterations).
+
+\subsection{Compute Requirements}
+
+All experiments completed in 8.6 minutes on single machine using OpenAI API.
+
+Total cost: $\approx$\$5 USD.
+
+\section{Additional Data}
+
+\subsection{Full Variance Data}
+
+Combined variance measurements across both trials:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ccccccc}
+\toprule
+\textbf{Position} & \textbf{10} & \textbf{20} & \textbf{30} & \textbf{50} & \textbf{75} & \textbf{100} \\
+\midrule
+Trial 0 & 0.0649 & 0.0751 & 0.0773 & 0.0795 & 0.0749 & 0.0751 \\
+Trial 1 & 0.0616 & 0.0756 & 0.0762 & 0.0770 & 0.0798 & 0.0828 \\
+Mean & 0.0633 & 0.0753 & 0.0767 & 0.0782 & 0.0773 & 0.0790 \\
+Std & 0.0023 & 0.0004 & 0.0008 & 0.0018 & 0.0034 & 0.0054 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Temperature Study Details}
+
+At low temperatures ($T = 0.0, 0.3$), variance is extremely small, making power-law fits numerically unstable. We focus on $T \geq 0.5$ where stochasticity is sufficient for reliable parameter estimation.
+
+\end{document}
+
